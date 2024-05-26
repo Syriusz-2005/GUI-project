@@ -1,5 +1,6 @@
 package utils;
 
+import java.lang.reflect.Array;
 import java.util.function.Function;
 
 public class Grid<T> {
@@ -7,8 +8,8 @@ public class Grid<T> {
     private final int width;
     private final int height;
 
-    public Grid(int width, int height) {
-        grid = (T[][]) new Object[width][height];
+    public Grid(Class<T> c, int width, int height) {
+        grid = (T[][]) Array.newInstance(c, height, width);
         this.width = width;
         this.height = height;
     }
