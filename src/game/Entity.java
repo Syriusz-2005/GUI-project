@@ -1,16 +1,25 @@
 package game;
 
 import utils.Vec2f;
+import utils.Vec2i;
 
 public abstract class Entity implements Updatable {
     protected final Vec2f pos = new Vec2f(0, 0);
     protected final Vec2f vel = new Vec2f(0, 0);
     protected float speed = 0.01f;
+    protected final PacmanBoard parent;
+    protected Vec2i goal;
+    private Vec2i prevPos;
 
-    public Entity() {}
+    public Entity(PacmanBoard parent) {
+        this.parent = parent;
+    }
 
     public Vec2f getPos() {
         return pos;
+    }
+    public Vec2i getGridPos() {
+        return new Vec2i((int) pos.x, (int) pos.y);
     }
 
     /**
@@ -24,6 +33,33 @@ public abstract class Entity implements Updatable {
     }
 
     public void step(float timeDelta) {
-        pos.add(vel);
+        if (prevPos == null || !prevPos.equals(getGridPos())) {
+            onGridPosChange();
+        }
+        prevPos = getGridPos();
+        if (goal != null) {
+            if (goal.toFloatCenter().subtract(pos).length() < vel.length() * timeDelta) {
+                onGoalReached();
+            }
+            setMovement(goal.toFloatCenter().subtract(pos));
+        }
+        pos.add(vel.clone().multiply(timeDelta));
     }
+
+    protected void findNextGoal(Vec2i dir) {
+        var normalizedDir = dir.normalize();
+        var grid = parent.getBoardGrid();
+        var currPos = getGridPos();
+        var finalPos = grid.walk(currPos, normalizedDir, (Vec2i p, Field f, int i) -> {
+            return !f.isWall();
+        });
+        if (finalPos.equals(getGridPos())) {
+            onGoalReached();
+            return;
+        }
+        goal = finalPos;
+    }
+
+    protected void onGridPosChange() {}
+    protected void onGoalReached() {}
 }

@@ -3,13 +3,18 @@ import view.TerminalView;
 import view.View;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         System.out.println("Initializing pacman...");
 
         View view = new TerminalView();
 
         var board = new PacmanBoard(40, 15);
-        board.step(0.01f);
-        view.display(board);
+
+        while (true) {
+            board.step(40f);
+            view.display(board);
+            Thread.sleep(40);
+        }
+
     }
 }
