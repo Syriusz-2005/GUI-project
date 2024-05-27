@@ -1,6 +1,10 @@
 import game.PacmanBoard;
+import view.PacmanBoardWindow;
 import view.TerminalView;
 import view.View;
+
+import java.awt.*;
+import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
@@ -9,12 +13,14 @@ public class Main {
         View view = new TerminalView();
 
         var board = new PacmanBoard(40, 15);
+        var window = new PacmanBoardWindow(board);
 
         while (true) {
             board.step(40f);
-            view.display(board);
+            window.display(board);
             Thread.sleep(40);
         }
+
 
     }
 }

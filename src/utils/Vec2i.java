@@ -17,6 +17,9 @@ public class Vec2i {
         return new Vec2i(x, y);
     }
 
+    public Vec2f toFloat() {
+        return new Vec2f((float) x, (float) y);
+    }
     public Vec2f toFloatCenter() {
         return new Vec2f((float) x + .5f, (float) y + .5f);
     }

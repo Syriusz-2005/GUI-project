@@ -38,6 +38,10 @@ public class Grid<T> {
         return this;
     }
 
+    public Vec2i getSize() {
+        return new Vec2i(width, height);
+    }
+
     public Vec2i walk(Vec2i from, Vec2i dir, GridElementConsumer<T> next) {
         var curr = from.clone();
         int i = 0;

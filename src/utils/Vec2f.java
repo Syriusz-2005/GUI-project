@@ -20,6 +20,10 @@ public class Vec2f {
         return new Vec2f(x, y);
     }
 
+    public Vec2i toInt() {
+        return new Vec2i((int) x, (int) y);
+    }
+
     public Vec2f copy(Vec2f v) {
         x = v.x;
         y = v.y;

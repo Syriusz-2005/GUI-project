@@ -1,6 +1,7 @@
 package game;
 
 import utils.Grid;
+import utils.Vec2i;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,10 @@ public class PacmanBoard implements Updatable {
     }
     public Grid<Field> getBoardGrid() {
         return boardGrid;
+    }
+
+    public Vec2i getSize() {
+        return boardGrid.getSize();
     }
 
     public ArrayList<Entity> getEntities() {
