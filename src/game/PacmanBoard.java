@@ -15,6 +15,10 @@ public class PacmanBoard implements Updatable {
         ghost.pos.x = 1f;
         ghost.pos.y = 1f;
         entities.add(ghost);
+        var player = new Player(this);
+        player.pos.x = 14;
+        player.pos.y = 13;
+        entities.add(player);
         ghost.findNextRandomGoal();
     }
     public Grid<Field> getBoardGrid() {

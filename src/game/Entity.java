@@ -50,9 +50,7 @@ public abstract class Entity implements Updatable {
         var normalizedDir = dir.normalize();
         var grid = parent.getBoardGrid();
         var currPos = getGridPos();
-        var finalPos = grid.walk(currPos, normalizedDir, (Vec2i p, Field f, int i) -> {
-            return !f.isWall();
-        });
+        var finalPos = grid.walk(currPos, normalizedDir, (Vec2i p, Field f, int i) -> !f.isWall());
         if (finalPos.equals(getGridPos())) {
             onGoalReached();
             return;

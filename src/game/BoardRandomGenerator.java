@@ -7,9 +7,7 @@ import java.util.logging.FileHandler;
 
 public class BoardRandomGenerator {
     public static void generate(Grid<Field> g) {
-        g.fill((int x, int y) -> {
-           return new Field(true);
-        });
+        g.fill((int x, int y) -> new Field(true));
     }
 
     public static void loadFromFile(Grid<Field> g) {
