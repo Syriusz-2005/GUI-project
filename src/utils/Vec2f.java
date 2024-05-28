@@ -4,9 +4,10 @@ package utils;
  * Mutable implementation of a vector. (Immutability is nice but unfortunately performance-heavy)
  */
 public class Vec2f {
+    public static Vec2f ZERO = new Vec2f(0, 0);
+
     public float x;
     public float y;
-
     public Vec2f(float x, float y) {
         this.x = x;
         this.y = y;

@@ -10,6 +10,7 @@ public abstract class Entity implements Updatable {
     protected final PacmanBoard parent;
     protected Vec2i goal;
     private Vec2i prevPos;
+    private Vec2i currFieldCenter;
 
     public Entity(PacmanBoard parent) {
         this.parent = parent;
@@ -18,17 +19,16 @@ public abstract class Entity implements Updatable {
     public Vec2f getPos() {
         return pos;
     }
+
     public Vec2i getGridPos() {
         return new Vec2i((int) pos.x, (int) pos.y);
     }
 
     /**
-     *
      * @param direction a normalized direction vector. For example {1, 0} points to the right.
      */
     public Entity setMovement(Vec2f direction) {
         var dir = direction.clone().normalize();
-        System.out.println(dir);
         vel.copy(dir.multiply(speed));
         return this;
     }
@@ -36,6 +36,12 @@ public abstract class Entity implements Updatable {
     public void step(float timeDelta) {
         if (prevPos == null || !prevPos.equals(getGridPos())) {
             onGridPosChange();
+        }
+        if (getGridPos().toFloatCenter().subtract(pos).length() < vel.length() * timeDelta
+                && (currFieldCenter == null || !currFieldCenter.equals(getGridPos()))
+        ) {
+            onInFieldCenter();
+            currFieldCenter = getGridPos();
         }
         prevPos = getGridPos();
         if (goal != null) {
@@ -59,6 +65,13 @@ public abstract class Entity implements Updatable {
         goal = finalPos;
     }
 
-    protected void onGridPosChange() {}
-    protected void onGoalReached() {}
+    protected void onGridPosChange() {
+    }
+
+    protected void onGoalReached() {
+        vel.copy(Vec2f.ZERO);
+    }
+
+    protected void onInFieldCenter() {
+    }
 }
