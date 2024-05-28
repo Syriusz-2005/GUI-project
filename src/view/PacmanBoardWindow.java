@@ -1,9 +1,12 @@
 package view;
 
 import game.PacmanBoard;
+import utils.Vec2f;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 // Why not the web platform? :(
 public class PacmanBoardWindow extends JFrame implements View {
@@ -17,6 +20,39 @@ public class PacmanBoardWindow extends JFrame implements View {
         var size = board.getSize().add(1).multiply(FIELD_SIZE);
         setBackground(new Color(0, 0, 0));
         setSize(size.x, size.y);
+        addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                var player = board.getPlayer();
+                switch (e.getKeyChar()) {
+                    case 'w': {
+                        player.setNextMove(new Vec2f(0, -1));
+                        break;
+                    }
+                    case 's': {
+                        player.setNextMove(new Vec2f(0, 1));
+                        break;
+                    }
+                    case 'a': {
+                        player.setNextMove(new Vec2f(-1, 0));
+                        break;
+                    }
+                    case 'd': {
+                        player.setNextMove(new Vec2f(1, 0));
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
         boardPanel = new JPanel(){
             @Override
             protected void paintComponent(Graphics g) {

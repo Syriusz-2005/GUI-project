@@ -28,6 +28,7 @@ public abstract class Entity implements Updatable {
      */
     public Entity setMovement(Vec2f direction) {
         var dir = direction.clone().normalize();
+        System.out.println(dir);
         vel.copy(dir.multiply(speed));
         return this;
     }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class PacmanBoard implements Updatable {
     private final Grid<Field> boardGrid;
     private final ArrayList<Entity> entities = new ArrayList<Entity>();
+    private final Player player = new Player(this);
 
     public PacmanBoard(int width, int height) {
         boardGrid = new Grid<Field>(Field.class,  width, height);
@@ -15,8 +16,7 @@ public class PacmanBoard implements Updatable {
         var ghost = new Ghost(this);
         ghost.pos.x = 1.5f;
         ghost.pos.y = 1.5f;
-        entities.add(ghost);
-        var player = new Player(this);
+//        entities.add(ghost);
         player.pos.x = 14.5f;
         player.pos.y = 13.5f;
         entities.add(player);
@@ -32,6 +32,10 @@ public class PacmanBoard implements Updatable {
 
     public ArrayList<Entity> getEntities() {
         return entities;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public void step(float timeDelta) {
