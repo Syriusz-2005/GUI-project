@@ -18,7 +18,7 @@ public class Main {
         while (true) {
             board.step(6f);
             window.display(board);
-            Thread.sleep(14);
+            Thread.sleep(16);
         }
 
 
