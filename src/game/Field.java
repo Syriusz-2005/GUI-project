@@ -3,7 +3,7 @@ package game;
 public class Field {
     private boolean isWall;
     private boolean hasPowerup = false;
-    private boolean hasPoint = false;
+    private boolean hasPoint = true;
 
     public Field(boolean isWall) {
         this.isWall = isWall;

@@ -5,6 +5,7 @@ import utils.Vec2i;
 
 public class Player extends Entity {
     private Vec2f nextMove;
+    private int score = 0;
 
     public Player(PacmanBoard parent) {
         super(parent);
@@ -22,6 +23,16 @@ public class Player extends Entity {
     @Override
     protected void onInFieldCenter(boolean isFirst) {
         updateMovementDirection();
+    }
+
+    @Override
+    protected void onGridPosChange() {
+        var gridPos = getGridPos();
+        var field = parent.getBoardGrid().get(gridPos);
+        if (field.hasPoint()) {
+            field.setHasPoint(false);
+            score++;
+        }
     }
 
     public Player setNextMove(Vec2f dir) {

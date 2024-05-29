@@ -2,6 +2,7 @@ package view;
 
 import game.PacmanBoard;
 import utils.Vec2f;
+import utils.Vec2i;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,11 +33,7 @@ public class PacmanBoardWindow extends JFrame implements View {
             }
         });
 
-        addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-            }
-
+        addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 var player = board.getPlayer();
@@ -59,22 +56,24 @@ public class PacmanBoardWindow extends JFrame implements View {
                     }
                 }
             }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-
-            }
         });
         boardPanel = new JPanel(){
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 var grid = board.getBoardGrid().getGrid();
-                g.setColor(new Color(0, 56, 154));
                 for (int y = 0; y < grid.length; y++) {
                     for (int x = 0; x < grid[y].length; x++) {
-                        if (grid[y][x].isWall()) {
-                            g.fillRect(x * FIELD_SIZE, y * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE);
+                        var field = grid[y][x];
+                        var pos = new Vec2i(x, y).multiply(FIELD_SIZE);
+                        if (field.isWall()) {
+                            g.setColor(new Color(0, 56, 154));
+                            g.fillRect(pos.x, pos.y, FIELD_SIZE, FIELD_SIZE);
+                        } else if (field.hasPoint()) {
+                            g.setColor(Color.WHITE);
+                            var r = (int) (0.2 * FIELD_SIZE);
+                            pos.add(FIELD_SIZE / 2).subtract(r / 2);
+                            g.fillOval(pos.x, pos.y, r, r);
                         }
                     }
                 }
