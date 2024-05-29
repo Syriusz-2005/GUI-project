@@ -5,8 +5,9 @@ import utils.Vec2f;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 // Why not the web platform? :(
 public class PacmanBoardWindow extends JFrame implements View {
@@ -20,6 +21,16 @@ public class PacmanBoardWindow extends JFrame implements View {
         var size = board.getSize().add(1).multiply(FIELD_SIZE);
         setBackground(new Color(0, 0, 0));
         setSize(size.x, size.y);
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                var wSize = getSize();
+                var boardSize = board.getSize();
+
+                FIELD_SIZE = Math.min(wSize.width / boardSize.x, wSize.height / boardSize.y);
+            }
+        });
+
         addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -68,10 +79,8 @@ public class PacmanBoardWindow extends JFrame implements View {
                 }
 
                 var entities = board.getEntities();
-                g.setColor(new Color(241, 204, 0));
                 for (var entity : entities) {
-                    var screenPos = entity.getPos().clone().multiply(FIELD_SIZE).toInt();
-                    g.fillArc(screenPos.x - 10, screenPos.y - 10, 20, 20, 0, 350);
+                    entity.draw(g, FIELD_SIZE);
                 }
             }
         };

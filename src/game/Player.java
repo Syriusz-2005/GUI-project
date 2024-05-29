@@ -12,8 +12,7 @@ public class Player extends Entity {
 
     private void updateMovementDirection() {
         if (nextMove != null) {
-            System.out.println("New move");
-            findNextGoal(nextMove.toInt(), (Integer stepsCount) -> stepsCount > 1);
+            findNextGoal(nextMove.toInt(), (Integer stepsCount) -> stepsCount > 0);
         } else {
             vel.copy(Vec2f.ZERO);
             goal = null;

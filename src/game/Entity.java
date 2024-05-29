@@ -1,8 +1,10 @@
 package game;
 
+import utils.Rect;
 import utils.Vec2f;
 import utils.Vec2i;
 
+import java.awt.*;
 import java.util.function.Predicate;
 
 public abstract class Entity implements Updatable {
@@ -83,4 +85,10 @@ public abstract class Entity implements Updatable {
     }
 
     protected void onInFieldCenter() {}
+
+    public void draw(Graphics g, int fieldSize) {
+        var screenPos = pos.clone().multiply(fieldSize).toInt().subtract(fieldSize / 3);
+        g.setColor(new Color(241, 204, 0));
+        g.fillArc(screenPos.x, screenPos.y, fieldSize - fieldSize / 3, fieldSize - fieldSize / 3, 0, 350);
+    }
 }

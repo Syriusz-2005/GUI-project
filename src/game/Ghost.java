@@ -3,6 +3,8 @@ package game;
 import utils.Grid;
 import utils.Vec2i;
 
+import java.awt.*;
+
 public class Ghost extends Entity {
     public Ghost(PacmanBoard parent) {
         super(parent);
@@ -28,5 +30,12 @@ public class Ghost extends Entity {
     @Override
     public void step(float timeDelta) {
         super.step(timeDelta);
+    }
+
+    @Override
+    public void draw(Graphics g, int fieldSize) {
+        var screenPos = pos.clone().multiply(fieldSize).toInt().subtract(fieldSize / 3);
+        g.setColor(new Color(237, 0, 0));
+        g.fillArc(screenPos.x, screenPos.y, fieldSize - fieldSize / 3, fieldSize - fieldSize / 3, 0, 350);
     }
 }

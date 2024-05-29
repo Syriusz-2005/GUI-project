@@ -10,8 +10,6 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
         System.out.println("Initializing pacman...");
 
-        View view = new TerminalView();
-
         var board = new PacmanBoard(40, 15);
         var window = new PacmanBoardWindow(board);
 
