@@ -1,6 +1,8 @@
 package utils;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.function.Function;
 
 public class Grid<T> {
@@ -22,7 +24,7 @@ public class Grid<T> {
         return grid[y][x];
     }
     public T get(Vec2i v) {
-        return grid[v.y][v.x];
+        return grid[v.y % height][v.x % width];
     }
 
     public void set(int x, int y, T v) {
@@ -51,5 +53,23 @@ public class Grid<T> {
             i++;
         } while(next.consume(curr, get(curr), i));
         return curr.subtract(dir);
+    }
+
+    public ArrayList<T> getNeighbours(Vec2i f) {
+        var neighbours = new ArrayList<T>();
+        neighbours.add(get(f.clone().add(new Vec2i(1, 0))));
+        neighbours.add(get(f.clone().add(new Vec2i(-1, 0))));
+        neighbours.add(get(f.clone().add(new Vec2i(0, 1))));
+        neighbours.add(get(f.clone().add(new Vec2i(0, -1))));
+        return neighbours;
+    }
+
+    public ArrayList<Vec2i> getNeighboursPos(Vec2i f) {
+        var neighbours = new ArrayList<Vec2i>();
+        neighbours.add(f.clone().add(new Vec2i(1, 0)));
+        neighbours.add(f.clone().add(new Vec2i(-1, 0)));
+        neighbours.add(f.clone().add(new Vec2i(0, 1)));
+        neighbours.add(f.clone().add(new Vec2i(0, -1)));
+        return neighbours;
     }
 }

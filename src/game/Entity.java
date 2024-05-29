@@ -13,8 +13,8 @@ public abstract class Entity implements Updatable {
     protected float speed = 0.01f;
     protected final PacmanBoard parent;
     protected Vec2i goal;
-    private Vec2i prevPos;
-    private Vec2i currFieldCenter;
+    protected Vec2i prevPos;
+    protected Vec2i currFieldCenter;
     private boolean isInFieldCenter = true;
 
     public Entity(PacmanBoard parent) {
@@ -27,6 +27,11 @@ public abstract class Entity implements Updatable {
 
     public Vec2i getGridPos() {
         return new Vec2i((int) pos.x, (int) pos.y);
+    }
+    public Entity setGridPos(Vec2i p) {
+        pos.x = p.x + .5f;
+        pos.y = p.y + .5f;
+        return this;
     }
 
     /**
@@ -48,7 +53,7 @@ public abstract class Entity implements Updatable {
         }
         isInFieldCenter = getGridPos().toFloatCenter().subtract(pos).length() <= speed * timeDelta;
         if (isInFieldCenter) {
-            onInFieldCenter();
+            onInFieldCenter(currFieldCenter == null || !getGridPos().equals(currFieldCenter));
             currFieldCenter = getGridPos();
         }
         prevPos = getGridPos();
@@ -84,7 +89,7 @@ public abstract class Entity implements Updatable {
         vel.copy(Vec2f.ZERO);
     }
 
-    protected void onInFieldCenter() {}
+    protected void onInFieldCenter(boolean isFirst) {}
 
     public void draw(Graphics g, int fieldSize) {
         var screenPos = pos.clone().multiply(fieldSize).toInt().subtract(fieldSize / 3);

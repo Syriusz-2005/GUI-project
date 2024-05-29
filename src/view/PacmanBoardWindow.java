@@ -20,7 +20,8 @@ public class PacmanBoardWindow extends JFrame implements View {
         this.board = board;
         var size = board.getSize().add(1).multiply(FIELD_SIZE);
         setBackground(new Color(0, 0, 0));
-        setSize(size.x, size.y);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        setSize(size.x, size.y);
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {

@@ -20,7 +20,7 @@ public class Player extends Entity {
     }
 
     @Override
-    protected void onInFieldCenter() {
+    protected void onInFieldCenter(boolean isFirst) {
         updateMovementDirection();
     }
 

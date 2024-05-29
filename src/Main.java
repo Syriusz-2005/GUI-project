@@ -14,9 +14,9 @@ public class Main {
         var window = new PacmanBoardWindow(board);
 
         while (true) {
-            board.step(6f);
+            board.step(2.7f);
             window.display(board);
-            Thread.sleep(16);
+            Thread.sleep(7);
         }
 
 
