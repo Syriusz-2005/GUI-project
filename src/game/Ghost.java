@@ -22,7 +22,7 @@ public class Ghost extends Entity {
 
     public void findNextRandomGoal() {
         var dir = getRandDir();
-        findNextGoal(dir);
+        findNextGoal(dir, (Integer stepsCount) -> true);
     }
 
     @Override

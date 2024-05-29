@@ -5,7 +5,6 @@ import utils.Vec2i;
 
 public class Player extends Entity {
     private Vec2f nextMove;
-    boolean isInitial = true;
 
     public Player(PacmanBoard parent) {
         super(parent);
@@ -13,10 +12,11 @@ public class Player extends Entity {
 
     private void updateMovementDirection() {
         if (nextMove != null) {
-            findNextGoal(nextMove.toInt());
-            nextMove = null;
+            System.out.println("New move");
+            findNextGoal(nextMove.toInt(), (Integer stepsCount) -> stepsCount > 1);
         } else {
             vel.copy(Vec2f.ZERO);
+            goal = null;
         }
     }
 
@@ -27,10 +27,6 @@ public class Player extends Entity {
 
     public Player setNextMove(Vec2f dir) {
         nextMove = dir;
-        if (isInitial) {
-            updateMovementDirection();
-            isInitial = false;
-        }
         return this;
     }
 }
