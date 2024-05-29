@@ -18,10 +18,13 @@ public class PacmanBoard implements Updatable {
         whiteGhost.setGridPos(new Vec2i(35, 2));
         entities.add(whiteGhost);
 
+        var orangeGhost = new OrangeGhost(this);
+        orangeGhost.setGridPos(new Vec2i(26, 1));
+        entities.add(orangeGhost);
+
         var ghost = new RedGhost(this);
         ghost.setGridPos(new Vec2i(1, 1));
         entities.add(ghost);
-
 
         player.pos.x = 14.5f;
         player.pos.y = 13.5f;
