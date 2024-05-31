@@ -62,6 +62,17 @@ public class PacmanBoardWindow extends JFrame implements View {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 var grid = board.getBoardGrid().getGrid();
+                g.translate(0, 150);
+
+                g.setColor(Color.WHITE);
+                g.setFont(new Font(null, Font.PLAIN, 40));
+
+                var scoreTitle = "Score: " + board.getPlayer().getScore();
+                g.drawString(scoreTitle, 30, -70);
+
+                var livesCounter = "Lives: " + board.getPlayer().lives;
+                g.drawString(livesCounter, 250, -70);
+
                 for (int y = 0; y < grid.length; y++) {
                     for (int x = 0; x < grid[y].length; x++) {
                         var field = grid[y][x];
@@ -76,6 +87,13 @@ public class PacmanBoardWindow extends JFrame implements View {
                             g.fillOval(pos.x, pos.y, r, r);
                         }
                     }
+                }
+
+                if (board.isGameOver()) {
+                    var gameOverTitle = "Game over!";
+                    g.setColor(Color.RED);
+                    g.setFont(new Font(null, Font.PLAIN, 80));
+                    g.drawString(gameOverTitle, getWidth() / 2, getHeight() / 2);
                 }
 
                 var entities = board.getEntities();

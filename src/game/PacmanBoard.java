@@ -11,9 +11,6 @@ public class PacmanBoard implements Updatable {
     private Player player;
 
     private void initState() {
-        entities.clear();
-        player = new Player(this);
-
         var whiteGhost = new WhiteGhost(this);
         whiteGhost.setGridPos(new Vec2i(35, 2));
         entities.add(whiteGhost);
@@ -25,16 +22,17 @@ public class PacmanBoard implements Updatable {
         var ghost = new RedGhost(this);
         ghost.setGridPos(new Vec2i(1, 1));
         entities.add(ghost);
+        ghost.findNextRandomGoal();
 
         player.pos.x = 14.5f;
         player.pos.y = 13.5f;
-        entities.add(player);
-        ghost.findNextRandomGoal();
     }
 
     public PacmanBoard(int width, int height) {
         boardGrid = new Grid<Field>(Field.class,  width, height);
         BoardRandomGenerator.loadFromFile(boardGrid);
+        player = new Player(this);
+        entities.add(player);
         initState();
     }
     public Grid<Field> getBoardGrid() {
@@ -54,7 +52,19 @@ public class PacmanBoard implements Updatable {
     }
 
     private void onDeath() {
+        player.lives--;
+        entities.clear();
+        player.reset();
+        if (isGameOver()) {
+            System.out.println("Game over!");
+            return;
+        }
+        entities.add(player);
         initState();
+    }
+
+    public boolean isGameOver() {
+        return player.lives <= 0;
     }
 
     public void step(float timeDelta) {

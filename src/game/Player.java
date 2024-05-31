@@ -6,6 +6,7 @@ import utils.Vec2i;
 public class Player extends Entity {
     private Vec2f nextMove;
     private int score = 0;
+    public int lives = 3;
 
     public Player(PacmanBoard parent) {
         super(parent);
@@ -18,6 +19,12 @@ public class Player extends Entity {
             vel.copy(Vec2f.ZERO);
             goal = null;
         }
+    }
+
+    public void reset() {
+        nextMove = null;
+        vel.copy(Vec2f.ZERO);
+        goal = null;
     }
 
     @Override
@@ -33,6 +40,10 @@ public class Player extends Entity {
             field.setHasPoint(false);
             score++;
         }
+    }
+
+    public int getScore() {
+        return score;
     }
 
     public Player setNextMove(Vec2f dir) {
