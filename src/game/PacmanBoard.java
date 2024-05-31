@@ -89,4 +89,8 @@ public class PacmanBoard implements Updatable {
         entities.add(e);
         return this;
     }
+
+    public GameClock getClock() {
+        return clock;
+    }
 }

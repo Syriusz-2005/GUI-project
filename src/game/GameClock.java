@@ -1,7 +1,9 @@
 package game;
 
-public class GameClock {
-    public volatile int seconds;
+import utils.TimeCounting;
+
+public class GameClock implements TimeCounting {
+    private volatile int seconds;
     private synchronized void addSecond() {
         seconds++;
     }
@@ -22,5 +24,9 @@ public class GameClock {
 
     public void interrupt() {
         t1.interrupt();
+    }
+
+    public int getSeconds() {
+        return seconds;
     }
 }

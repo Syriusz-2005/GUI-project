@@ -1,6 +1,7 @@
 package view;
 
 import game.PacmanBoard;
+import utils.ClockDisplay;
 import utils.Vec2f;
 import utils.Vec2i;
 
@@ -18,7 +19,6 @@ public class PacmanBoardWindow extends JFrame implements View {
     public PacmanBoardWindow(PacmanBoard board) {
         super();
         this.board = board;
-        displayGameOverWindow();
         board.setOnGameOver(this::displayGameOverWindow);
         setTitle("Game window");
         var size = board.getSize().add(1).multiply(FIELD_SIZE);
@@ -73,6 +73,10 @@ public class PacmanBoardWindow extends JFrame implements View {
 
                 var livesCounter = "Lives: " + board.getPlayer().lives;
                 g.drawString(livesCounter, 250, -70);
+
+                var clockDisplay = new ClockDisplay(board.getClock());
+                var time = clockDisplay.getFormattedTime();
+                g.drawString(time, 450, -70);
 
                 for (int y = 0; y < grid.length; y++) {
                     for (int x = 0; x < grid[y].length; x++) {
