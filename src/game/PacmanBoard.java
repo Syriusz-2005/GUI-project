@@ -11,6 +11,7 @@ public class PacmanBoard implements Updatable {
     private final ArrayList<Entity> entities = new ArrayList<Entity>();
     private Player player;
     private GameOverListener onGameOver;
+    private final GameClock clock = new GameClock();
 
     private void initState() {
         var whiteGhost = new WhiteGhost(this);
@@ -63,6 +64,7 @@ public class PacmanBoard implements Updatable {
         player.reset();
         if (isGameOver()) {
             onGameOver.call();
+            clock.interrupt();
             System.out.println("Game over!");
             return;
         }
