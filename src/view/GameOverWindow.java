@@ -45,12 +45,8 @@ public class GameOverWindow extends JFrame {
             var name = nameInput.getText();
             System.out.println(name);
 
-            var gameScore = new GameScore();
-            gameScore.name = name;
-            gameScore.totalScore = board.getPlayer().getScore();
-
+            var gameScore = new GameScore(board.getPlayer().getScore(), name, board.getClock().getSeconds());
             var scoreTitle = name.replaceAll("[^a-z0-9A-Z]", "_");
-
             var stream = new FileOutputStream("./" + scoreTitle + ".score.bin");
 
             var objectStream = new ObjectOutputStream(stream);
@@ -59,6 +55,7 @@ public class GameOverWindow extends JFrame {
             objectStream.close();
 
             stream.close();
+            setVisible(false);
         } catch (IOException err) {
             System.err.println("Couldn't save the game score!");
         }

@@ -1,13 +1,10 @@
 import game.PacmanBoard;
-import view.GameOverWindow;
 import view.PacmanBoardWindow;
-import view.TerminalView;
-import view.View;
-
-import java.awt.*;
-import javax.swing.*;
+import view.TitleScreen;
 
 public class Main {
+    private static TitleScreen titleScreen = new TitleScreen();
+
     public static void main(String[] args) throws InterruptedException {
         System.out.println("Initializing pacman...");
 
