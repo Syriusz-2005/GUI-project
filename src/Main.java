@@ -1,4 +1,5 @@
 import game.PacmanBoard;
+import view.GameOverWindow;
 import view.PacmanBoardWindow;
 import view.TerminalView;
 import view.View;

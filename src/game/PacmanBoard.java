@@ -4,11 +4,13 @@ import utils.Grid;
 import utils.Vec2i;
 
 import java.util.ArrayList;
+import java.util.function.Function;
 
 public class PacmanBoard implements Updatable {
     private final Grid<Field> boardGrid;
     private final ArrayList<Entity> entities = new ArrayList<Entity>();
     private Player player;
+    private GameOverListener onGameOver;
 
     private void initState() {
         var whiteGhost = new WhiteGhost(this);
@@ -26,6 +28,10 @@ public class PacmanBoard implements Updatable {
 
         player.pos.x = 14.5f;
         player.pos.y = 13.5f;
+    }
+
+    public void setOnGameOver(GameOverListener callback) {
+        onGameOver = callback;
     }
 
     public PacmanBoard(int width, int height) {
@@ -56,6 +62,7 @@ public class PacmanBoard implements Updatable {
         entities.clear();
         player.reset();
         if (isGameOver()) {
+            onGameOver.call();
             System.out.println("Game over!");
             return;
         }

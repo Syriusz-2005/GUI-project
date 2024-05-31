@@ -3,6 +3,8 @@ package game;
 import utils.Vec2f;
 import utils.Vec2i;
 
+import java.io.Serializable;
+
 public class Player extends Entity {
     private Vec2f nextMove;
     private int score = 0;

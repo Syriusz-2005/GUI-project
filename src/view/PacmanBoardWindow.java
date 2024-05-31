@@ -7,22 +7,23 @@ import utils.Vec2i;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 // Why not the web platform? :(
 public class PacmanBoardWindow extends JFrame implements View {
     private int FIELD_SIZE = 30;
     private PacmanBoard board;
     private JPanel boardPanel;
+    private GameOverWindow gameOverWindow;
 
     public PacmanBoardWindow(PacmanBoard board) {
         super();
         this.board = board;
+        displayGameOverWindow();
+        board.setOnGameOver(this::displayGameOverWindow);
+        setTitle("Game window");
         var size = board.getSize().add(1).multiply(FIELD_SIZE);
         setBackground(new Color(0, 0, 0));
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-//        setSize(size.x, size.y);
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -109,5 +110,10 @@ public class PacmanBoardWindow extends JFrame implements View {
 
     public void display(PacmanBoard board) {
        repaint();
+    }
+
+    public void displayGameOverWindow() {
+        gameOverWindow = new GameOverWindow(board);
+        gameOverWindow.setVisible(true);
     }
 }
