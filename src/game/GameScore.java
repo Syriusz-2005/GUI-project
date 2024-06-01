@@ -16,4 +16,13 @@ public class GameScore implements Serializable {
         this.name = name;
         this.timeSeconds = timeSeconds;
     };
+
+    @Override
+    public String toString() {
+        return "GameScore{" +
+                "totalScore=" + totalScore +
+                ", name='" + name + '\'' +
+                ", timeSeconds=" + timeSeconds +
+                '}';
+    }
 }

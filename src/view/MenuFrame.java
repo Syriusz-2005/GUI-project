@@ -23,7 +23,11 @@ public class MenuFrame extends JFrame {
     }
 
     private void switchToRanking(ActionEvent e) {
+        System.out.println("Switching to ranking...");
         remove(titleScreen);
         add(rankingPanel);
+        repaint();
+        setVisible(true);
+        System.out.println("Switched!");
     }
 }
