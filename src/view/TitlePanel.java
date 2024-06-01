@@ -2,15 +2,12 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
-public class TitleScreen extends JFrame {
-    public static Dimension PREFERED_BUTTON_SIZE = new Dimension(180, 30);
+public class TitlePanel extends JPanel {
 
-    public TitleScreen() {
+    public TitlePanel(ActionListener onPlay, ActionListener onSwitchToRanking) {
         super();
-        setName("Pacman game");
-        setSize(new Dimension(800, 500));
-        setLayout(new FlowLayout());
 
         var mainMenuContainer = new JPanel();
         mainMenuContainer.setLayout(new GridLayout(2, 1));
@@ -24,18 +21,18 @@ public class TitleScreen extends JFrame {
         menuButtonsContainer.setLayout(l);
 
         var playButton = new JButton("Play");
-        playButton.setPreferredSize(PREFERED_BUTTON_SIZE);
+        playButton.addActionListener(onPlay);
+        playButton.setPreferredSize(MenuFrame.PREFERED_BUTTON_SIZE);
         menuButtonsContainer.add(playButton);
 
         var rankingButton = new JButton("View ranking");
-        rankingButton.setPreferredSize(PREFERED_BUTTON_SIZE);
+        rankingButton.setPreferredSize(MenuFrame.PREFERED_BUTTON_SIZE);
+        rankingButton.addActionListener(onSwitchToRanking);
         menuButtonsContainer.add(rankingButton);
 
         mainMenuContainer.add(menuButtonsContainer);
 
-
         add(mainMenuContainer);
-        setVisible(true);
     }
 
 
