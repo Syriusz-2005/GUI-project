@@ -5,14 +5,17 @@ import view.PacmanBoardWindow;
 public class Main {
     private static final Runnable gameLoop = () -> {
         var board = new PacmanBoard(40, 15);
-        var window = new PacmanBoardWindow(board);
+        var window = new PacmanBoardWindow(board, Thread.currentThread());
 
-        while (!board.isGameOver() || !Thread.currentThread().isInterrupted()) {
-            board.step(2.7f);
-            window.display(board);
-            try {
-                Thread.sleep(7);
-            } catch (InterruptedException ignored) {}
+        try {
+            while (!board.isGameOver() && !Thread.currentThread().isInterrupted() ) {
+                board.step(2.7f);
+                window.display(board);
+                    Thread.sleep(7);
+            }
+        } catch (InterruptedException ignored) {}
+        finally {
+            System.out.println("Thread ended");
         }
     };
     public static void main(String[] args) throws InterruptedException {

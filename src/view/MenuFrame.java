@@ -13,6 +13,7 @@ public class MenuFrame extends JFrame {
     public MenuFrame(ActionListener onPlay) {
         super();
         setName("Pacman game");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(new Dimension(800, 500));
         setLayout(new FlowLayout());
         titleScreen = new TitlePanel(onPlay, this::switchToRanking);

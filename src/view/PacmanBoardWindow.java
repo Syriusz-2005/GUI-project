@@ -16,10 +16,17 @@ public class PacmanBoardWindow extends JFrame implements View {
     private JPanel boardPanel;
     private GameOverWindow gameOverWindow;
 
-    public PacmanBoardWindow(PacmanBoard board) {
+    public PacmanBoardWindow(PacmanBoard board, Thread gameLoopThread) {
         super();
         this.board = board;
         board.setOnGameOver(this::displayGameOverWindow);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                System.out.println("Interrupting the game loop...");
+                gameLoopThread.interrupt();
+            }
+        });
         setTitle("Game window");
         var size = board.getSize().add(1).multiply(FIELD_SIZE);
         setBackground(new Color(0, 0, 0));
