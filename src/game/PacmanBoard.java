@@ -11,6 +11,7 @@ public class PacmanBoard implements Updatable {
     private Player player;
     private GameOverListener onGameOver;
     private final GameClock clock = new GameClock();
+    private final Vec2i ghostSpawn;
 
     private void initState() {
         var whiteGhost = new WhiteGhost(this);
@@ -37,6 +38,7 @@ public class PacmanBoard implements Updatable {
     public PacmanBoard(int width, int height) {
         boardGrid = new Grid<Field>(Field.class,  width, height);
         BoardGenerator.loadFromFile(boardGrid);
+        ghostSpawn = boardGrid.findFirst(Field::isGhostSpawn);
         player = new Player(this);
         entities.add(player);
         initState();
@@ -75,9 +77,17 @@ public class PacmanBoard implements Updatable {
         return player.lives <= 0;
     }
 
+    public Vec2i getGhostSpawn() {
+        return ghostSpawn;
+    }
+
     public void step(float timeDelta) {
         for (Entity entity : entities) {
-            if (entity != player && entity.getPos().distance(player.getPos()) < .7) {
+            if (entity instanceof Ghost && entity.getPos().distance(player.getPos()) < .7) {
+                if (player.hasPowerup()) {
+                    ((Ghost) entity).isEthereal = true;
+                    return;
+                }
                 onDeath();
                 return;
             }

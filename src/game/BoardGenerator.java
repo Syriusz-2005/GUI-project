@@ -22,6 +22,7 @@ public class BoardGenerator {
                     var field = new Field(c == '█');
                     field.setIsDoor(c == 'd');
                     field.setHasPowerup(c == 'p');
+                    field.setIsGhostSpawn(c == 's');
                     g.set(x, y, field);
                 }
                 y++;

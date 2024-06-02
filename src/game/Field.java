@@ -6,10 +6,19 @@ public class Field {
     private boolean isOpen = false;
     private boolean hasPowerup = false;
     private boolean hasPoint;
+    private boolean isGhostSpawn = false;
 
     public Field(boolean isWall) {
         this.isWall = isWall;
         this.hasPoint = !isWall;
+    }
+
+    public void setIsGhostSpawn(boolean isGhostSpawn) {
+        this.isGhostSpawn = isGhostSpawn;
+    }
+
+    public boolean isGhostSpawn() {
+        return isGhostSpawn;
     }
 
     public void setHasPoint(boolean hasPoint) {

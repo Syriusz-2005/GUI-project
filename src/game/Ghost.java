@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 public abstract class Ghost extends Entity {
     private final Color color;
+    public boolean isEthereal = false;
+
     public Ghost(PacmanBoard parent, Color color) {
         super(parent);
         this.color = color;
@@ -18,18 +20,27 @@ public abstract class Ghost extends Entity {
                 : Math.random() > .5 ? new Vec2i(0, 1) : new Vec2i(0, -1) ;
     }
 
-    protected boolean useEscapeMode() {
+    @Override
+    protected void onGridPosChange() {
+        super.onGridPosChange();
+        if (isEthereal && parent.getBoardGrid().get(getGridPos()).isGhostSpawn()) {
+            System.out.println("Setting ethereal to false");
+            isEthereal = false;
+        }
+    }
+
+    protected boolean useGhostBehaviours() {
         boolean playerHasPowerup = parent.getPlayer().hasPowerup();
-        if (!playerHasPowerup) return false;
+        if (!playerHasPowerup && !isEthereal) return false;
 
         var grid = parent.getBoardGrid();
         var neighbours = grid.getNeighboursPos(getGridPos());
-        var playerPos = parent.getPlayer().getPos();
-
+        var targetPos = isEthereal ? parent.getGhostSpawn().toFloatCenter() : parent.getPlayer().getPos();
+        var dir = isEthereal ? 1 : -1;
         var directions = new ArrayList<Vec2i>(neighbours
                 .stream()
                 .filter((Vec2i p) -> !grid.get(p).isWall())
-                .sorted((Vec2i a, Vec2i b) -> playerPos.distance(a.toFloatCenter()) > playerPos.distance(b.toFloatCenter()) ? -1 : 1)
+                .sorted((Vec2i a, Vec2i b) -> targetPos.distance(a.toFloatCenter()) > targetPos.distance(b.toFloatCenter()) ? dir : dir * -1)
                 .map((Vec2i p) -> p.subtract(getGridPos()))
                 .toList());
 
@@ -49,6 +60,9 @@ public abstract class Ghost extends Entity {
         boolean playerHasPowerup = parent.getPlayer().hasPowerup();
         var screenPos = pos.clone().multiply(fieldSize).toInt().subtract(fieldSize / 3);
         g.setColor(playerHasPowerup ? Color.GREEN : color);
+        if (isEthereal) {
+            g.setColor(Color.GRAY);
+        }
         g.fillArc(screenPos.x, screenPos.y, fieldSize - fieldSize / 3, fieldSize - fieldSize / 3, 0, 350);
     }
 }

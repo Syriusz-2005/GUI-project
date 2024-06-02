@@ -1,7 +1,5 @@
 package game;
 
-import utils.Vec2i;
-
 import java.awt.*;
 
 public class RedGhost extends Ghost {
@@ -18,11 +16,13 @@ public class RedGhost extends Ghost {
     @Override
     protected void onInFieldCenter(boolean isFirst) {
         super.onInFieldCenter(isFirst);
-        useEscapeMode();
+        if (isFirst) {
+            useGhostBehaviours();
+        }
     }
 
     public void findNextRandomGoal() {
-        if (useEscapeMode()) return;
+        if (parent.getPlayer().hasPowerup()) return;
         var dir = getRandDir();
         findNextGoal(dir, (Integer stepsCount) -> true);
     }

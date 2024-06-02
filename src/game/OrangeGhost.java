@@ -4,7 +4,6 @@ import utils.Vec2i;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class OrangeGhost extends Ghost {
     public OrangeGhost(PacmanBoard parent) {
@@ -16,7 +15,7 @@ public class OrangeGhost extends Ghost {
     protected void onInFieldCenter(boolean isFirst) {
         super.onInFieldCenter(isFirst);
         if (!isFirst) return;
-        if (useEscapeMode()) return;
+        if (useGhostBehaviours()) return;
         var grid = parent.getBoardGrid();
         var neighbours = grid.getNeighboursPos(getGridPos());
         var playerPos = parent.getPlayer().getPos();

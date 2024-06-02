@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class Grid<T> {
     private final T[][] grid;
@@ -42,6 +43,18 @@ public class Grid<T> {
 
     public Vec2i getSize() {
         return new Vec2i(width, height);
+    }
+
+    public Vec2i findFirst(Predicate<T> pred) {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                var e = get(x, y);
+                if (pred.test(e)) {
+                    return new Vec2i(x, y);
+                }
+            }
+        }
+        return null;
     }
 
     public Vec2i walk(Vec2i from, Vec2i dir, GridElementConsumer<T> next) {

@@ -5,7 +5,6 @@ import utils.Vec2i;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.stream.Stream;
 
 public class WhiteGhost extends Ghost {
 
@@ -17,7 +16,7 @@ public class WhiteGhost extends Ghost {
     protected void onInFieldCenter(boolean isFirst) {
         if (!isFirst) return;
         super.onInFieldCenter(true);
-        if (useEscapeMode()) return;
+        if (useGhostBehaviours()) return;
 
         var grid = parent.getBoardGrid();
         var neighbours = grid.getNeighboursPos(getGridPos());
