@@ -24,9 +24,14 @@ public abstract class Ghost extends Entity {
     protected void onGridPosChange() {
         super.onGridPosChange();
         if (isEthereal && parent.getBoardGrid().get(getGridPos()).isGhostSpawn()) {
-            System.out.println("Setting ethereal to false");
             isEthereal = false;
         }
+    }
+
+    @Override
+    public void step(float timeDelta) {
+        super.step(timeDelta);
+        speedMultiplier = isEthereal ? 1.5f : 1;
     }
 
     protected boolean useGhostBehaviours() {

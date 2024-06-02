@@ -15,15 +15,15 @@ public class PacmanBoard implements Updatable {
 
     private void initState() {
         var whiteGhost = new WhiteGhost(this);
-        whiteGhost.setGridPos(new Vec2i(35, 2));
+        whiteGhost.setGridPos(ghostSpawn);
         entities.add(whiteGhost);
 
         var orangeGhost = new OrangeGhost(this);
-        orangeGhost.setGridPos(new Vec2i(26, 1));
+        orangeGhost.setGridPos(ghostSpawn);
         entities.add(orangeGhost);
 
         var ghost = new RedGhost(this);
-        ghost.setGridPos(new Vec2i(1, 1));
+        ghost.setGridPos(ghostSpawn);
         entities.add(ghost);
         ghost.findNextRandomGoal();
 
@@ -41,6 +41,11 @@ public class PacmanBoard implements Updatable {
         ghostSpawn = boardGrid.findFirst(Field::isGhostSpawn);
         player = new Player(this);
         entities.add(player);
+        clock.on((seconds) -> {
+            if (seconds == 5) {
+                openDoors();
+            }
+        });
         initState();
     }
     public Grid<Field> getBoardGrid() {
@@ -83,17 +88,28 @@ public class PacmanBoard implements Updatable {
 
     public void step(float timeDelta) {
         for (Entity entity : entities) {
+            entity.step(timeDelta);
             if (entity instanceof Ghost && entity.getPos().distance(player.getPos()) < .7) {
                 if (player.hasPowerup()) {
-                    ((Ghost) entity).isEthereal = true;
-                    return;
+                    if (!((Ghost) entity).isEthereal) {
+                        ((Ghost) entity).isEthereal = true;
+                        player.addScore(100);
+                    }
+                    continue;
                 }
                 onDeath();
                 return;
             }
-            entity.step(timeDelta);
         }
     }
+
+    private void openDoors() {
+        var doors = boardGrid.findAll(Field::isDoor);
+        for (var door : doors) {
+            door.setIsOpen(true);
+        }
+    }
+
     public PacmanBoard add(Entity e) {
         entities.add(e);
         return this;

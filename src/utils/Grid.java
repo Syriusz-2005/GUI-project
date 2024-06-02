@@ -57,6 +57,19 @@ public class Grid<T> {
         return null;
     }
 
+    public ArrayList<T> findAll(Predicate<T> pred) {
+        var children = new ArrayList<T>();
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                var e = get(x, y);
+                if (pred.test(e)) {
+                    children.add(e);
+                }
+            }
+        }
+        return children;
+    }
+
     public Vec2i walk(Vec2i from, Vec2i dir, GridElementConsumer<T> next) {
         var curr = from.clone();
         int i = 0;

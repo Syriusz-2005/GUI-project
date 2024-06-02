@@ -2,10 +2,17 @@ package game;
 
 import utils.TimeCounting;
 
+import java.util.ArrayList;
+import java.util.function.Consumer;
+
 public class GameClock implements TimeCounting {
+    private final ArrayList<Consumer<Integer>> listeners = new ArrayList<>();
     private volatile int seconds;
     private synchronized void addSecond() {
         seconds++;
+        for (var listener : listeners) {
+            listener.accept(seconds);
+        }
     }
 
     private final Runnable r = () -> {
@@ -28,5 +35,9 @@ public class GameClock implements TimeCounting {
 
     public int getSeconds() {
         return seconds;
+    }
+
+    public void on(Consumer<Integer> callback) {
+        listeners.add(callback);
     }
 }

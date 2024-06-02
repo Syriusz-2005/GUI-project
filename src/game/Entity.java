@@ -11,6 +11,7 @@ public abstract class Entity implements Updatable {
     protected final Vec2f pos = new Vec2f(0, 0);
     protected final Vec2f vel = new Vec2f(0, 0);
     protected float speed = 0.01f;
+    protected float speedMultiplier = 1;
     protected final PacmanBoard parent;
     protected Vec2i goal;
     protected Vec2i prevPos;
@@ -39,7 +40,7 @@ public abstract class Entity implements Updatable {
      */
     public Entity setMovement(Vec2f direction) {
         var dir = direction.clone().normalize();
-        vel.copy(dir.multiply(speed));
+        vel.copy(dir.multiply(speed * speedMultiplier));
         return this;
     }
 
@@ -51,7 +52,7 @@ public abstract class Entity implements Updatable {
         if (prevPos == null || !prevPos.equals(getGridPos())) {
             onGridPosChange();
         }
-        isInFieldCenter = getGridPos().toFloatCenter().subtract(pos).length() <= speed * timeDelta;
+        isInFieldCenter = getGridPos().toFloatCenter().subtract(pos).length() <= speed * timeDelta * speedMultiplier;
         if (isInFieldCenter) {
             onInFieldCenter(currFieldCenter == null || !getGridPos().equals(currFieldCenter));
             currFieldCenter = getGridPos();

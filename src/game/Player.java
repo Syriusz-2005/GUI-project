@@ -53,6 +53,9 @@ public class Player extends Entity {
     public int getScore() {
         return score;
     }
+    public void addScore(int points) {
+        score += points;
+    }
 
     public Player setNextMove(Vec2f dir) {
         nextMove = dir;
