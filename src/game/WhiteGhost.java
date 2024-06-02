@@ -16,8 +16,9 @@ public class WhiteGhost extends Ghost {
     @Override
     protected void onInFieldCenter(boolean isFirst) {
         if (!isFirst) return;
+        super.onInFieldCenter(true);
+        if (useEscapeMode()) return;
 
-        super.onInFieldCenter(isFirst);
         var grid = parent.getBoardGrid();
         var neighbours = grid.getNeighboursPos(getGridPos());
         var directions = new ArrayList<Vec2i>(neighbours

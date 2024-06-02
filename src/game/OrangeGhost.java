@@ -16,6 +16,7 @@ public class OrangeGhost extends Ghost {
     protected void onInFieldCenter(boolean isFirst) {
         super.onInFieldCenter(isFirst);
         if (!isFirst) return;
+        if (useEscapeMode()) return;
         var grid = parent.getBoardGrid();
         var neighbours = grid.getNeighboursPos(getGridPos());
         var playerPos = parent.getPlayer().getPos();

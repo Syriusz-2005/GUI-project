@@ -4,7 +4,6 @@ import utils.Grid;
 import utils.Vec2i;
 
 import java.util.ArrayList;
-import java.util.function.Function;
 
 public class PacmanBoard implements Updatable {
     private final Grid<Field> boardGrid;
@@ -37,7 +36,7 @@ public class PacmanBoard implements Updatable {
 
     public PacmanBoard(int width, int height) {
         boardGrid = new Grid<Field>(Field.class,  width, height);
-        BoardRandomGenerator.loadFromFile(boardGrid);
+        BoardGenerator.loadFromFile(boardGrid);
         player = new Player(this);
         entities.add(player);
         initState();

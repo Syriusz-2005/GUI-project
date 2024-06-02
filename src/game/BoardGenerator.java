@@ -3,9 +3,8 @@ package game;
 import utils.Grid;
 
 import java.io.*;
-import java.util.logging.FileHandler;
 
-public class BoardRandomGenerator {
+public class BoardGenerator {
     public static void generate(Grid<Field> g) {
         g.fill((int x, int y) -> new Field(true));
     }
@@ -20,7 +19,10 @@ public class BoardRandomGenerator {
             while ((l = reader.readLine()) != null) {
                 for (int x = 0; x < l.length(); x++) {
                     char c = l.charAt(x);
-                    g.set(x, y, new Field(c == '█'));
+                    var field = new Field(c == '█');
+                    field.setIsDoor(c == 'd');
+                    field.setHasPowerup(c == 'p');
+                    g.set(x, y, field);
                 }
                 y++;
             }

@@ -8,7 +8,7 @@ public class GameClock implements TimeCounting {
         seconds++;
     }
 
-    private Runnable r = () -> {
+    private final Runnable r = () -> {
         try {
             while (!Thread.currentThread().isInterrupted()) {
                 Thread.sleep(1000);

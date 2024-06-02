@@ -1,14 +1,15 @@
 package game;
 
 import utils.Vec2f;
-import utils.Vec2i;
 
-import java.io.Serializable;
+import java.time.Clock;
 
 public class Player extends Entity {
     private Vec2f nextMove;
     private int score = 0;
     public int lives = 3;
+    public GameClock powerupClock;
+    private final int powerupDuration = 10;
 
     public Player(PacmanBoard parent) {
         super(parent);
@@ -42,6 +43,11 @@ public class Player extends Entity {
             field.setHasPoint(false);
             score++;
         }
+
+        if (field.hasPowerup()) {
+            powerupClock = new GameClock();
+            field.setHasPowerup(false);
+        }
     }
 
     public int getScore() {
@@ -51,5 +57,17 @@ public class Player extends Entity {
     public Player setNextMove(Vec2f dir) {
         nextMove = dir;
         return this;
+    }
+
+    @Override
+    public void step(float timeDelta) {
+        super.step(timeDelta);
+        if (!hasPowerup()) {
+            powerupClock = null;
+        }
+    }
+
+    public boolean hasPowerup() {
+        return powerupClock != null && powerupClock.getSeconds() < powerupDuration;
     }
 }

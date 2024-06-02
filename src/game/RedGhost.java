@@ -15,7 +15,14 @@ public class RedGhost extends Ghost {
         findNextRandomGoal();
     }
 
+    @Override
+    protected void onInFieldCenter(boolean isFirst) {
+        super.onInFieldCenter(isFirst);
+        useEscapeMode();
+    }
+
     public void findNextRandomGoal() {
+        if (useEscapeMode()) return;
         var dir = getRandDir();
         findNextGoal(dir, (Integer stepsCount) -> true);
     }
