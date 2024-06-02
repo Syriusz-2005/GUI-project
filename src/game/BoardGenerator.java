@@ -20,9 +20,11 @@ public class BoardGenerator {
                 for (int x = 0; x < l.length(); x++) {
                     char c = l.charAt(x);
                     var field = new Field(c == '█');
+                    field.setHasPoint(c == '●');
                     field.setIsDoor(c == 'd');
                     field.setHasPowerup(c == 'p');
                     field.setIsGhostSpawn(c == 's');
+                    field.setPlayerSpawn(c == 'r');
                     g.set(x, y, field);
                 }
                 y++;

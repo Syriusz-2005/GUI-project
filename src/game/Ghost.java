@@ -31,7 +31,7 @@ public abstract class Ghost extends Entity {
     @Override
     public void step(float timeDelta) {
         super.step(timeDelta);
-        speedMultiplier = isEthereal ? 1.5f : 1;
+        speedMultiplier = (isEthereal ? 1.5f : 1) + ((float) (parent.getLevel() - 1) * 0.1f);
     }
 
     protected boolean useGhostBehaviours() {

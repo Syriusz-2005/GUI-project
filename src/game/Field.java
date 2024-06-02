@@ -5,16 +5,24 @@ public class Field {
     private boolean isDoor = false;
     private boolean isOpen = false;
     private boolean hasPowerup = false;
-    private boolean hasPoint;
+    private boolean hasPoint = false;
     private boolean isGhostSpawn = false;
+    private boolean isPlayerSpawn = false;
 
     public Field(boolean isWall) {
         this.isWall = isWall;
-        this.hasPoint = !isWall;
     }
 
     public void setIsGhostSpawn(boolean isGhostSpawn) {
         this.isGhostSpawn = isGhostSpawn;
+    }
+
+    public void setPlayerSpawn(boolean playerSpawn) {
+        isPlayerSpawn = playerSpawn;
+    }
+
+    public boolean isPlayerSpawn() {
+        return isPlayerSpawn;
     }
 
     public boolean isGhostSpawn() {
@@ -47,5 +55,8 @@ public class Field {
     public boolean isDoor() {return isDoor;}
     public void setIsOpen(boolean isOpen) {
         this.isOpen = isOpen;
+    }
+    public boolean isOpen() {
+        return isOpen;
     }
 }

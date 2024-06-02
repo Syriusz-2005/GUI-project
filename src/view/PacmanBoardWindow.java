@@ -81,6 +81,9 @@ public class PacmanBoardWindow extends JFrame implements View {
                 var livesCounter = "Lives: " + board.getPlayer().lives;
                 g.drawString(livesCounter, 250, -70);
 
+                var levelCounter = "Level: " + board.getLevel();
+                g.drawString(levelCounter, 650, -70);
+
                 var clockDisplay = new ClockDisplay(board.getClock());
                 var time = clockDisplay.getFormattedTime();
                 g.drawString(time, 450, -70);
@@ -90,7 +93,7 @@ public class PacmanBoardWindow extends JFrame implements View {
                         var field = grid[y][x];
                         var pos = new Vec2i(x, y).multiply(FIELD_SIZE);
                         if (field.isDoor()) {
-                            g.setColor(Color.WHITE);
+                            g.setColor(field.isOpen() ? Color.GRAY : Color.WHITE);
                             g.fillRect(pos.x, pos.y, FIELD_SIZE, FIELD_SIZE);
                         } else if (field.isWall()) {
                             g.setColor(new Color(0, 56, 154));

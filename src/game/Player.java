@@ -10,6 +10,7 @@ public class Player extends Entity {
     public int lives = 3;
     public GameClock powerupClock;
     private final int powerupDuration = 10;
+    private int pointsPickedUp = 0;
 
     public Player(PacmanBoard parent) {
         super(parent);
@@ -41,6 +42,7 @@ public class Player extends Entity {
         var field = parent.getBoardGrid().get(gridPos);
         if (field.hasPoint()) {
             field.setHasPoint(false);
+            pointsPickedUp++;
             score++;
         }
 
@@ -72,5 +74,11 @@ public class Player extends Entity {
 
     public boolean hasPowerup() {
         return powerupClock != null && powerupClock.getSeconds() < powerupDuration;
+    }
+    public int getPointsPickedUp() {
+        return pointsPickedUp;
+    }
+    public void resetPointsPickedUp() {
+        pointsPickedUp = 0;
     }
 }

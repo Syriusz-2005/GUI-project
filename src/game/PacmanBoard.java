@@ -11,7 +11,13 @@ public class PacmanBoard implements Updatable {
     private Player player;
     private GameOverListener onGameOver;
     private final GameClock clock = new GameClock();
+    private int gameStartSecond = 0;
+
     private final Vec2i ghostSpawn;
+    private final Vec2i playerSpawn;
+    private final int totalFieldsWithPoints;
+    private int level = 1;
+
 
     private void initState() {
         var whiteGhost = new WhiteGhost(this);
@@ -27,8 +33,7 @@ public class PacmanBoard implements Updatable {
         entities.add(ghost);
         ghost.findNextRandomGoal();
 
-        player.pos.x = 14.5f;
-        player.pos.y = 13.5f;
+        player.setGridPos(playerSpawn);
     }
 
     public void setOnGameOver(GameOverListener callback) {
@@ -39,10 +44,12 @@ public class PacmanBoard implements Updatable {
         boardGrid = new Grid<Field>(Field.class,  width, height);
         BoardGenerator.loadFromFile(boardGrid);
         ghostSpawn = boardGrid.findFirst(Field::isGhostSpawn);
+        playerSpawn = boardGrid.findFirst(Field::isPlayerSpawn);
+        totalFieldsWithPoints = boardGrid.findAll(Field::hasPoint).size();
         player = new Player(this);
         entities.add(player);
         clock.on((seconds) -> {
-            if (seconds == 5) {
+            if (seconds == gameStartSecond + 5) {
                 openDoors();
             }
         });
@@ -87,6 +94,17 @@ public class PacmanBoard implements Updatable {
     }
 
     public void step(float timeDelta) {
+        if (player.getPointsPickedUp() >= totalFieldsWithPoints) {
+            entities.clear();
+            gameStartSecond = clock.getSeconds();
+            BoardGenerator.loadFromFile(boardGrid);
+            player.reset();
+            player.resetPointsPickedUp();
+            entities.add(player);
+            level++;
+            initState();
+            return;
+        }
         for (Entity entity : entities) {
             entity.step(timeDelta);
             if (entity instanceof Ghost && entity.getPos().distance(player.getPos()) < .7) {
@@ -117,5 +135,9 @@ public class PacmanBoard implements Updatable {
 
     public GameClock getClock() {
         return clock;
+    }
+
+    public int getLevel() {
+        return level;
     }
 }
