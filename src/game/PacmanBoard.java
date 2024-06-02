@@ -3,9 +3,11 @@ package game;
 import utils.Grid;
 import utils.Vec2i;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class PacmanBoard implements Updatable {
+    private final String boardName;
     private final Grid<Field> boardGrid;
     private final ArrayList<Entity> entities = new ArrayList<Entity>();
     private Player player;
@@ -40,9 +42,12 @@ public class PacmanBoard implements Updatable {
         onGameOver = callback;
     }
 
-    public PacmanBoard(int width, int height) {
-        boardGrid = new Grid<Field>(Field.class,  width, height);
-        BoardGenerator.loadFromFile(boardGrid);
+    public PacmanBoard(String boardName) throws IOException {
+        this.boardName = boardName;
+        Vec2i size = BoardGenerator.getSize(boardName);
+        boardGrid = new Grid<>(Field.class, size.x, size.y);
+        BoardGenerator.loadFromFile(boardGrid, boardName);
+        System.out.println(boardName);
         ghostSpawn = boardGrid.findFirst(Field::isGhostSpawn);
         playerSpawn = boardGrid.findFirst(Field::isPlayerSpawn);
         totalFieldsWithPoints = boardGrid.findAll(Field::hasPoint).size();
@@ -93,11 +98,11 @@ public class PacmanBoard implements Updatable {
         return ghostSpawn;
     }
 
-    public void step(float timeDelta) {
+    public void step(float timeDelta) throws IOException {
         if (player.getPointsPickedUp() >= totalFieldsWithPoints) {
             entities.clear();
             gameStartSecond = clock.getSeconds();
-            BoardGenerator.loadFromFile(boardGrid);
+            BoardGenerator.loadFromFile(boardGrid, boardName);
             player.reset();
             player.resetPointsPickedUp();
             entities.add(player);
