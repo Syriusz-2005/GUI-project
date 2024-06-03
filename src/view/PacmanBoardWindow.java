@@ -37,7 +37,7 @@ public class PacmanBoardWindow extends JFrame implements View {
                 var wSize = getSize();
                 var boardSize = board.getSize();
 
-                FIELD_SIZE = Math.min(wSize.width / boardSize.x, wSize.height / boardSize.y);
+                FIELD_SIZE = Math.min(wSize.width / boardSize.x, (wSize.height - 180) / boardSize.y);
             }
         });
 
