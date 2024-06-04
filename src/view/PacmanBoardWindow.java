@@ -9,7 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-// Why not the web platform? :(
 public class PacmanBoardWindow extends JFrame implements View {
     private int FIELD_SIZE = 30;
     private PacmanBoard board;
@@ -28,7 +27,6 @@ public class PacmanBoardWindow extends JFrame implements View {
             }
         });
         setTitle("Game window");
-        var size = board.getSize().add(1).multiply(FIELD_SIZE);
         setBackground(new Color(0, 0, 0));
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         addComponentListener(new ComponentAdapter() {
