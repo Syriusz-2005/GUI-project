@@ -9,17 +9,26 @@ import java.util.Arrays;
 
 public class TextureController implements Runnable {
     private final Image[] textures;
-    private Thread t;
+    private final Image neutralTexture;
+    private final Thread t;
     private volatile boolean isRunning;
     private final float frameTime;
     private volatile int currentTexture = 0;
 
-    public TextureController(String[] textureNames, float frameTime) throws IOException {
+    public TextureController(String[] textureNames, float frameTime, String neutralTextureName) throws IOException {
         this.frameTime = frameTime;
         textures = (Image[]) Arrays.stream(textureNames)
                 .map((name) -> new File("./src/texture/" + name))
+                .map((file) -> {
+                    try {
+                        return ImageIO.read(file);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
                 .toArray();
         t = new Thread(this);
+        neutralTexture = ImageIO.read(new File("./src/texture/" + neutralTextureName));
         t.start();
     }
 
@@ -28,7 +37,10 @@ public class TextureController implements Runnable {
     }
 
     public Image getCurrTexture() {
-        return textures[currentTexture];
+        if (isRunning) {
+            return textures[currentTexture];
+        }
+        return neutralTexture;
     }
 
     @Override
