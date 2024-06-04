@@ -1,10 +1,10 @@
 package game;
 
 import utils.Vec2f;
+import utils.Vec2i;
 
 import java.awt.*;
 import java.io.IOException;
-import java.time.Clock;
 
 public class Player extends Entity {
     private Vec2f nextMove;
@@ -67,9 +67,8 @@ public class Player extends Entity {
         score += points;
     }
 
-    public Player setNextMove(Vec2f dir) {
+    public void setNextMove(Vec2f dir) {
         nextMove = dir;
-        return this;
     }
 
     @Override
@@ -94,8 +93,8 @@ public class Player extends Entity {
     @Override
     public void draw(Graphics g, int fieldSize) {
         var screenPos = pos.clone().multiply(fieldSize).toInt().subtract(fieldSize / 3);
-        var currentTexture = textureController.getCurrTexture();
+        var currentTexture = textureController.getCurrTexture(new Vec2i(fieldSize));
         var scale = fieldSize - fieldSize / 3;
-        g.drawImage(currentTexture, screenPos.x, screenPos.y, scale, scale, null);
+        g.drawImage(currentTexture, screenPos.x, screenPos.y,null);
     }
 }

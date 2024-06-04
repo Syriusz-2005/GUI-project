@@ -73,6 +73,12 @@ public class Vec2f {
         return this;
     }
 
+    public Vec2f divide(Vec2f v) {
+        x /= v.x;
+        y /= v.y;
+        return this;
+    }
+
     public float length() {
         return (float) Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     }

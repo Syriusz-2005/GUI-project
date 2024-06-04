@@ -1,12 +1,17 @@
 package utils;
 
 public class Vec2i {
+    public static Vec2i ZERO = new Vec2i(0, 0);
     public int x;
     public int y;
 
     public Vec2i(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public Vec2i(int s) {
+        this(s, s);
     }
 
     public Vec2i(Vec2i vec) {
@@ -73,6 +78,12 @@ public class Vec2i {
     public Vec2i divide(int s) {
         x /= s;
         y /= s;
+        return this;
+    }
+
+    public Vec2i divide(Vec2i v) {
+        x /= v.x;
+        y /= v.y;
         return this;
     }
 

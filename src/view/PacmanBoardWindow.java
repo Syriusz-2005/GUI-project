@@ -66,6 +66,7 @@ public class PacmanBoardWindow extends JFrame implements View {
         boardPanel = new JPanel(){
             @Override
             protected void paintComponent(Graphics g) {
+                var s = System.currentTimeMillis();
                 super.paintComponent(g);
                 var grid = board.getBoardGrid().getGrid();
                 g.translate(0, 150);
@@ -121,6 +122,8 @@ public class PacmanBoardWindow extends JFrame implements View {
                 for (var entity : entities) {
                     entity.draw(g, FIELD_SIZE);
                 }
+                var d = System.currentTimeMillis() - s;
+                System.out.println("Delta: " + d);
             }
         };
         boardPanel.setBackground(new Color(0, 0, 0));

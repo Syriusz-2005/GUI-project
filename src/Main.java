@@ -14,7 +14,7 @@ public class Main {
             while (!board.isGameOver() && !Thread.currentThread().isInterrupted() ) {
                 board.step(2.7f);
                 window.display(board);
-                    Thread.sleep(7);
+                Thread.sleep(7);
             }
         } catch(IOException err) {
             System.err.println("Couldn't load board files. Check if the board file exist: " + boardName);
