@@ -5,10 +5,12 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class TextureController implements Runnable {
-    private final Image[] textures;
+    private final List<BufferedImage> textures;
     private final Image neutralTexture;
     private final Thread t;
     private volatile boolean isRunning;
@@ -17,7 +19,7 @@ public class TextureController implements Runnable {
 
     public TextureController(String[] textureNames, float frameTime, String neutralTextureName) throws IOException {
         this.frameTime = frameTime;
-        textures = (Image[]) Arrays.stream(textureNames)
+        textures = Arrays.stream(textureNames)
                 .map((name) -> new File("./src/texture/" + name))
                 .map((file) -> {
                     try {
@@ -26,7 +28,7 @@ public class TextureController implements Runnable {
                         throw new RuntimeException(e);
                     }
                 })
-                .toArray();
+                .toList();
         t = new Thread(this);
         neutralTexture = ImageIO.read(new File("./src/texture/" + neutralTextureName));
         t.start();
@@ -38,7 +40,7 @@ public class TextureController implements Runnable {
 
     public Image getCurrTexture() {
         if (isRunning) {
-            return textures[currentTexture];
+            return textures.get(currentTexture);
         }
         return neutralTexture;
     }
@@ -50,7 +52,7 @@ public class TextureController implements Runnable {
             while (!Thread.currentThread().isInterrupted()) {
                     Thread.sleep((long) (frameTime * 1000));
                     if (isRunning) {
-                        currentTexture = ++i % textures.length;
+                        currentTexture = ++i % textures.size();
                     }
             }
         } catch (InterruptedException ignored) {}

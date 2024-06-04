@@ -2,6 +2,8 @@ package game;
 
 import utils.Vec2f;
 
+import java.awt.*;
+import java.io.IOException;
 import java.time.Clock;
 
 public class Player extends Entity {
@@ -11,8 +13,14 @@ public class Player extends Entity {
     public GameClock powerupClock;
     private final int powerupDuration = 10;
     private int pointsPickedUp = 0;
+    private final TextureController textureController = new TextureController(new String[]{
+            "player_frame_0.png",
+            "player_frame_1.png",
+            "player_frame_2.png",
+            "player_frame_3.png"
+    }, 0.1f, "player_frame_2.png");
 
-    public Player(PacmanBoard parent) {
+    public Player(PacmanBoard parent) throws IOException {
         super(parent);
     }
 
@@ -67,6 +75,7 @@ public class Player extends Entity {
     @Override
     public void step(float timeDelta) {
         super.step(timeDelta);
+        textureController.setState(goal != null);
         if (!hasPowerup()) {
             powerupClock = null;
         }
@@ -80,5 +89,13 @@ public class Player extends Entity {
     }
     public void resetPointsPickedUp() {
         pointsPickedUp = 0;
+    }
+
+    @Override
+    public void draw(Graphics g, int fieldSize) {
+        var screenPos = pos.clone().multiply(fieldSize).toInt().subtract(fieldSize / 3);
+        var currentTexture = textureController.getCurrTexture();
+        var scale = fieldSize - fieldSize / 3;
+        g.drawImage(currentTexture, screenPos.x, screenPos.y, scale, scale, null);
     }
 }
