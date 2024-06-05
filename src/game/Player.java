@@ -60,6 +60,12 @@ public class Player extends Entity {
             powerupClock = new GameClock();
             field.setHasPowerup(false);
         }
+
+        var dynamicPowerUp = field.getDynamicPowerUp();
+        if (dynamicPowerUp != null) {
+            applySpeedPowerUp();
+            field.setDynamicPowerUp(null);
+        }
     }
 
     public int getScore() {

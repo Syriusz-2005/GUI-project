@@ -1,6 +1,5 @@
 package game;
 
-import utils.Rect;
 import utils.Vec2f;
 import utils.Vec2i;
 
@@ -25,6 +24,9 @@ public abstract class Entity implements Updatable {
         this.parent = parent;
     }
 
+    public void applySpeedPowerUp() {
+        speedPowerUp = PowerUpType.SPEED.getInstance();
+    }
     public Vec2f getPos() {
         return pos;
     }
@@ -106,5 +108,9 @@ public abstract class Entity implements Updatable {
         var screenPos = pos.clone().multiply(fieldSize).toInt().subtract(fieldSize / 3);
         g.setColor(new Color(241, 204, 0));
         g.fillArc(screenPos.x, screenPos.y, fieldSize - fieldSize / 3, fieldSize - fieldSize / 3, 0, 350);
+    }
+
+    public void setSpeedMultiplier(float v) {
+        speedMultiplier = v;
     }
 }
