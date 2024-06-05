@@ -19,6 +19,12 @@ public class Main {
         } catch(IOException err) {
             System.err.println("IO exception, couldn't load the game " + boardName);
             System.err.println(err);
+            err.printStackTrace();
+        } catch (RuntimeException err) {
+            System.err.println("Pacman crashed: ");
+            System.err.println(err);
+            err.printStackTrace();
+            System.exit(1);
         } catch (InterruptedException ignored) {} finally {
             System.out.println("Thread ended");
         }
