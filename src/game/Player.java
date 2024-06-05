@@ -4,6 +4,7 @@ import utils.Vec2f;
 import utils.Vec2i;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.io.IOException;
 
 public class Player extends Entity {
@@ -93,8 +94,20 @@ public class Player extends Entity {
     @Override
     public void draw(Graphics g, int fieldSize) {
         var screenPos = pos.clone().multiply(fieldSize).toInt().subtract(fieldSize / 3);
-        var currentTexture = textureController.getCurrTexture(new Vec2i(fieldSize - fieldSize / 3));
-        var scale = fieldSize - fieldSize / 3;
-        g.drawImage(currentTexture, screenPos.x, screenPos.y,null);
+        var size = fieldSize - fieldSize / 3;
+        var currentTexture = textureController.getCurrTexture(new Vec2i(size));
+        var g2d = (Graphics2D) g;
+        var currTransform = g2d.getTransform();
+
+        AffineTransform trans = new AffineTransform();
+        var anchor = screenPos.clone().add(size / 2);
+        if (vel.length() > 0) {
+            var rotationAngle = vel.clone().normalize().angle();
+            trans.rotate(rotationAngle, anchor.x, anchor.y);
+        }
+
+        g2d.transform(trans);
+        g2d.drawImage(currentTexture, screenPos.x, screenPos.y,null);
+        g2d.setTransform(currTransform);
     }
 }

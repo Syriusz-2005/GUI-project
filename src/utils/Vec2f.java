@@ -79,6 +79,10 @@ public class Vec2f {
         return this;
     }
 
+    public float angle() {
+        return (float) Math.atan2(y, x);
+    }
+
     public float length() {
         return (float) Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     }
