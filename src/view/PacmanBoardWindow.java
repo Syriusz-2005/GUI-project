@@ -11,8 +11,8 @@ import java.awt.event.*;
 
 public class PacmanBoardWindow extends JFrame implements View {
     private int FIELD_SIZE = 30;
-    private PacmanBoard board;
-    private JPanel boardPanel;
+    private final PacmanBoard board;
+    private final JPanel boardPanel;
     private GameOverWindow gameOverWindow;
 
     public PacmanBoardWindow(PacmanBoard board, Thread gameLoopThread) {
