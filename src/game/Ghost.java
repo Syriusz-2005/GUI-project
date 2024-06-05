@@ -3,15 +3,18 @@ package game;
 import utils.Vec2i;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public abstract class Ghost extends Entity {
-    private final Color color;
+    private final GhostColor color;
     public boolean isEthereal = false;
+    private final TextureController textureController;
 
-    public Ghost(PacmanBoard parent, Color color) {
+    public Ghost(PacmanBoard parent, GhostColor color) throws IOException {
         super(parent);
         this.color = color;
+        this.textureController = new TextureController(new String[]{}, 1f, "ghost_" + color.getColor() + ".png");
     }
 
     protected Vec2i getRandDir() {
@@ -64,10 +67,13 @@ public abstract class Ghost extends Entity {
     public void draw(Graphics g, int fieldSize) {
         boolean playerHasPowerup = parent.getPlayer().hasPowerup();
         var screenPos = pos.clone().multiply(fieldSize).toInt().subtract(fieldSize / 3);
-        g.setColor(playerHasPowerup ? Color.GREEN : color);
+//        g.setColor(playerHasPowerup ? Color.GREEN : color);
         if (isEthereal) {
             g.setColor(Color.GRAY);
         }
-        g.fillArc(screenPos.x, screenPos.y, fieldSize - fieldSize / 3, fieldSize - fieldSize / 3, 0, 350);
+        var size = fieldSize - fieldSize / 3;
+        var currentTexture = textureController.getCurrTexture(new Vec2i(size));
+        g.drawImage(currentTexture, screenPos.x, screenPos.y, null);
+//        g.fillArc(screenPos.x, screenPos.y, fieldSize - fieldSize / 3, fieldSize - fieldSize / 3, 0, 350);
     }
 }

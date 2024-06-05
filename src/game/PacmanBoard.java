@@ -21,7 +21,7 @@ public class PacmanBoard implements Updatable {
     private int level = 1;
 
 
-    private void initState() {
+    private void initState() throws IOException {
         var whiteGhost = new WhiteGhost(this);
         whiteGhost.setGridPos(ghostSpawn);
         entities.add(whiteGhost);
@@ -76,7 +76,7 @@ public class PacmanBoard implements Updatable {
         return player;
     }
 
-    private void onDeath() {
+    private void onDeath() throws IOException {
         player.lives--;
         entities.clear();
         player.reset();

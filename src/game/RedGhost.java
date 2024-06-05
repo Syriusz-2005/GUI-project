@@ -1,10 +1,11 @@
 package game;
 
 import java.awt.*;
+import java.io.IOException;
 
 public class RedGhost extends Ghost {
-    public RedGhost(PacmanBoard parent) {
-        super(parent, new Color(237, 0, 0));
+    public RedGhost(PacmanBoard parent) throws IOException {
+        super(parent, GhostColor.RED);
     }
 
     @Override

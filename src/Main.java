@@ -17,12 +17,13 @@ public class Main {
                 Thread.sleep(7);
             }
         } catch(IOException err) {
-            System.err.println("Couldn't load board files. Check if the board file exist: " + boardName);
+            System.err.println("IO exception, couldn't load the game " + boardName);
+            System.err.println(err);
         } catch (InterruptedException ignored) {} finally {
             System.out.println("Thread ended");
         }
     };
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         System.out.println("Initializing pacman...");
 
         new MenuFrame((mapName) -> {

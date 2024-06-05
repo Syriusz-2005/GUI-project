@@ -8,11 +8,11 @@ import java.awt.geom.AffineTransform;
 import java.io.IOException;
 
 public class Player extends Entity {
+    private static final int POWERUP_DURATION = 10;
     private Vec2f nextMove;
     private int score = 0;
     public int lives = 3;
     public GameClock powerupClock;
-    private final int powerupDuration = 10;
     private int pointsPickedUp = 0;
     private final TextureController textureController = new TextureController(new String[]{
             "player_frame_0.png",
@@ -82,7 +82,7 @@ public class Player extends Entity {
     }
 
     public boolean hasPowerup() {
-        return powerupClock != null && powerupClock.getSeconds() < powerupDuration;
+        return powerupClock != null && powerupClock.getSeconds() < POWERUP_DURATION;
     }
     public int getPointsPickedUp() {
         return pointsPickedUp;

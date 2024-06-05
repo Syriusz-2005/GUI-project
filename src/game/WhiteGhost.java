@@ -3,13 +3,14 @@ package game;
 import utils.Vec2i;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class WhiteGhost extends Ghost {
 
-    public WhiteGhost(PacmanBoard parent) {
-        super(parent, new Color(255, 255, 255));
+    public WhiteGhost(PacmanBoard parent) throws IOException {
+        super(parent, GhostColor.WHITE);
     }
 
     @Override

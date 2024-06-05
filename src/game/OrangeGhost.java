@@ -3,11 +3,12 @@ package game;
 import utils.Vec2i;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class OrangeGhost extends Ghost {
-    public OrangeGhost(PacmanBoard parent) {
-        super(parent, Color.ORANGE);
+    public OrangeGhost(PacmanBoard parent) throws IOException {
+        super(parent, GhostColor.ORANGE);
         speed = 0.006f;
     }
 
