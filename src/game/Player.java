@@ -13,6 +13,7 @@ public class Player extends Entity {
     private int score = 0;
     public int lives = 3;
     public GameClock powerupClock;
+
     private int pointsPickedUp = 0;
     private final TextureController textureController = new TextureController(new String[]{
             "player_frame_0.png",
@@ -84,6 +85,7 @@ public class Player extends Entity {
     public boolean hasPowerup() {
         return powerupClock != null && powerupClock.getSeconds() < POWERUP_DURATION;
     }
+
     public int getPointsPickedUp() {
         return pointsPickedUp;
     }

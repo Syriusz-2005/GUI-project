@@ -1,5 +1,6 @@
 package game;
 
+import utils.MathUtils;
 import utils.Vec2i;
 
 import java.awt.*;
@@ -10,11 +11,22 @@ public abstract class Ghost extends Entity {
     private final GhostColor color;
     public boolean isEthereal = false;
     private final TextureController textureController;
+    private GameClock powerUpSpawnClock = new GameClock();
 
     public Ghost(PacmanBoard parent, GhostColor color) throws IOException {
         super(parent);
         this.color = color;
         this.textureController = new TextureController(new String[]{"ghost_scared.png"}, 1f, "ghost_" + color.getColor() + ".png");
+        powerUpSpawnClock.on(this::trySpawningPowerup);
+    }
+
+    private void trySpawningPowerup(int s) {
+        if (s % 5 == 0) {
+            if (MathUtils.randInt(0, 5) == 0) {
+                var currField = parent.getBoardGrid().get(getGridPos());
+                currField.setDynamicPowerUp(PowerUp.SPEED);
+            }
+        }
     }
 
     protected Vec2i getRandDir() {

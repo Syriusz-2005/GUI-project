@@ -11,12 +11,15 @@ public abstract class Entity implements Updatable {
     protected final Vec2f pos = new Vec2f(0, 0);
     protected final Vec2f vel = new Vec2f(0, 0);
     protected float speed = 0.01f;
+    // Entity effects system would be more flexible than hardcoding values
     protected float speedMultiplier = 1;
     protected final PacmanBoard parent;
     protected Vec2i goal;
     protected Vec2i prevPos;
     protected Vec2i currFieldCenter;
     private boolean isInFieldCenter = true;
+    private PowerUp speedPowerUp;
+
 
     public Entity(PacmanBoard parent) {
         this.parent = parent;
@@ -35,12 +38,19 @@ public abstract class Entity implements Updatable {
         return this;
     }
 
+    public float calcSpeedMultiplier() {
+        return speed * speedMultiplier;
+    }
+
     /**
      * @param direction a normalized direction vector. For example {1, 0} points to the right.
      */
     public Entity setMovement(Vec2f direction) {
         var dir = direction.clone().normalize();
-        vel.copy(dir.multiply(speed * speedMultiplier));
+        if (speedPowerUp != null) {
+            speedPowerUp.step(this);
+        }
+        vel.copy(dir.multiply(calcSpeedMultiplier()));
         return this;
     }
 
@@ -52,7 +62,7 @@ public abstract class Entity implements Updatable {
         if (prevPos == null || !prevPos.equals(getGridPos())) {
             onGridPosChange();
         }
-        isInFieldCenter = getGridPos().toFloatCenter().subtract(pos).length() <= speed * timeDelta * speedMultiplier;
+        isInFieldCenter = getGridPos().toFloatCenter().subtract(pos).length() <= calcSpeedMultiplier() * timeDelta;
         if (isInFieldCenter) {
             onInFieldCenter(currFieldCenter == null || !getGridPos().equals(currFieldCenter));
             currFieldCenter = getGridPos();

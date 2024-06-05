@@ -8,6 +8,7 @@ public class Field {
     private boolean hasPoint = false;
     private boolean isGhostSpawn = false;
     private boolean isPlayerSpawn = false;
+    private PowerUp dynamicPowerUp = null;
 
     public Field(boolean isWall) {
         this.isWall = isWall;
@@ -47,6 +48,12 @@ public class Field {
 
     public boolean hasPowerup() {
         return hasPowerup;
+    }
+    public PowerUp getDynamicPowerUp() {
+        return dynamicPowerUp;
+    }
+    public void setDynamicPowerUp(PowerUp powerUp) {
+        dynamicPowerUp = powerUp;
     }
 
     public boolean hasPoint() {

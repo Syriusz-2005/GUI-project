@@ -90,6 +90,14 @@ public class PacmanBoardWindow extends JFrame implements View {
                     for (int x = 0; x < grid[y].length; x++) {
                         var field = grid[y][x];
                         var pos = new Vec2i(x, y).multiply(FIELD_SIZE);
+
+                        if (field.getDynamicPowerUp() != null) {
+                            g.setColor(Color.GREEN);
+                            var r = (int) (0.5 * FIELD_SIZE);
+                            var pPos = pos.clone().add(FIELD_SIZE / 2).subtract(r / 2);
+                            g.fillOval(pPos.x, pPos.y, r, r);
+                        }
+
                         if (field.isDoor()) {
                             g.setColor(field.isOpen() ? Color.GRAY : Color.WHITE);
                             g.fillRect(pos.x, pos.y, FIELD_SIZE, FIELD_SIZE);

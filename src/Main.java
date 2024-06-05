@@ -7,7 +7,6 @@ import java.io.IOException;
 public class Main {
     private static String boardName;
     private static final Runnable gameLoop = () -> {
-
         try {
             var board = new PacmanBoard(boardName);
             var window = new PacmanBoardWindow(board, Thread.currentThread());
