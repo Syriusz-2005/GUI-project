@@ -15,7 +15,7 @@ import java.util.function.Function;
 
 public class TextureController implements Runnable {
     private final List<BufferedImage> textures;
-    private final Image neutralTexture;
+    private final BufferedImage neutralTexture;
     private Vec2i prevSize = Vec2i.ZERO.clone();
     private List<BufferedImage> resizedTextures;
     private BufferedImage resizedNeutralTexture;
@@ -36,9 +36,8 @@ public class TextureController implements Runnable {
                     }
                 })
                 .toList();
-        t = new Thread(this);
         neutralTexture = ImageIO.read(new File("./src/texture/" + neutralTextureName));
-        resize(new Vec2i(20, 20));
+        t = new Thread(this);
         t.start();
     }
 
@@ -49,7 +48,6 @@ public class TextureController implements Runnable {
         Function<BufferedImage, BufferedImage> resize = (t) -> {
             AffineTransform scalingTransform = new AffineTransform();
             var s = size.clone().toFloat().divide(new Vec2i(t.getWidth(), t.getHeight()).toFloat());
-            System.out.println(s);
             scalingTransform.scale(s.x, s.y);
             AffineTransformOp operation = new AffineTransformOp(scalingTransform, AffineTransformOp.TYPE_BILINEAR);
             var newImg = new BufferedImage(size.x, size.y, t.getType());
@@ -60,7 +58,7 @@ public class TextureController implements Runnable {
                 .map(resize)
                 .toList();
 
-        resizedNeutralTexture = resize.apply((BufferedImage) neutralTexture);
+        resizedNeutralTexture = resize.apply(neutralTexture);
     }
 
     public Image getCurrTexture(Vec2i size) {
@@ -71,7 +69,7 @@ public class TextureController implements Runnable {
         if (isRunning) {
             return resizedTextures.get(currentTexture);
         }
-        return neutralTexture;
+        return resizedNeutralTexture;
     }
 
     @Override

@@ -93,7 +93,7 @@ public class Player extends Entity {
     @Override
     public void draw(Graphics g, int fieldSize) {
         var screenPos = pos.clone().multiply(fieldSize).toInt().subtract(fieldSize / 3);
-        var currentTexture = textureController.getCurrTexture(new Vec2i(fieldSize));
+        var currentTexture = textureController.getCurrTexture(new Vec2i(fieldSize - fieldSize / 3));
         var scale = fieldSize - fieldSize / 3;
         g.drawImage(currentTexture, screenPos.x, screenPos.y,null);
     }
