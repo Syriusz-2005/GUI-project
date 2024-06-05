@@ -1,6 +1,7 @@
 package view;
 
 import game.PacmanBoard;
+import game.PowerUpType;
 import utils.ClockDisplay;
 import utils.Vec2f;
 import utils.Vec2i;
@@ -91,8 +92,9 @@ public class PacmanBoardWindow extends JFrame implements View {
                         var field = grid[y][x];
                         var pos = new Vec2i(x, y).multiply(FIELD_SIZE);
 
-                        if (field.getDynamicPowerUp() != null) {
-                            g.setColor(Color.GREEN);
+                        var dynamicPowerUp = field.getDynamicPowerUp();
+                        if (dynamicPowerUp != null) {
+                            g.setColor(dynamicPowerUp.getColor());
                             var r = (int) (0.5 * FIELD_SIZE);
                             var pPos = pos.clone().add(FIELD_SIZE / 2).subtract(r / 2);
                             g.fillOval(pPos.x, pPos.y, r, r);

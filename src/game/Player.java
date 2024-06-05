@@ -63,7 +63,7 @@ public class Player extends Entity {
 
         var dynamicPowerUp = field.getDynamicPowerUp();
         if (dynamicPowerUp != null) {
-            applySpeedPowerUp();
+            dynamicPowerUp.apply(this);
             field.setDynamicPowerUp(null);
         }
     }

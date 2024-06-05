@@ -24,7 +24,7 @@ public abstract class Ghost extends Entity {
         if (s % 5 == 0) {
             if (MathUtils.randInt(0, 5) == 0) {
                 var currField = parent.getBoardGrid().get(getGridPos());
-                currField.setDynamicPowerUp(PowerUpType.SPEED);
+                currField.setDynamicPowerUp(PowerUpType.getRandom());
             }
         }
     }

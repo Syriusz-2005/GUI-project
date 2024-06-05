@@ -1,19 +1,9 @@
 package game;
 
-public class SpeedPowerUp implements PowerUp {
-    private GameClock pClock = new GameClock();
+public class SpeedPowerUp extends PowerUp {
 
     @Override
-    public void apply(Entity p) {
-    }
-    @Override
-    public boolean isActive(Entity p) {
-        boolean isActive = pClock.getSeconds() < 5;
-        if (!isActive) {
-            pClock.interrupt();
-        }
-        return isActive;
-    }
+    public void apply(Entity p) {}
 
     @Override
     public void step(Entity p) {

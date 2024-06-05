@@ -18,15 +18,26 @@ public abstract class Entity implements Updatable {
     protected Vec2i currFieldCenter;
     private boolean isInFieldCenter = true;
     private PowerUp speedPowerUp;
+    private PowerUp freezePowerUp;
+    public boolean isFrozen = false;
 
 
     public Entity(PacmanBoard parent) {
         this.parent = parent;
     }
 
+
     public void applySpeedPowerUp() {
         speedPowerUp = PowerUpType.SPEED.getInstance();
+        speedPowerUp.apply(this);
     }
+
+    public void applyFreezePowerUp() {
+        freezePowerUp = PowerUpType.FREEZE.getInstance();
+        freezePowerUp.apply(this);
+    }
+
+
     public Vec2f getPos() {
         return pos;
     }
@@ -44,14 +55,17 @@ public abstract class Entity implements Updatable {
         return speed * speedMultiplier;
     }
 
+    private void stepPowerUps() {
+        if (speedPowerUp != null) speedPowerUp.step(this);
+        if (freezePowerUp != null) freezePowerUp.step(this);
+    }
+
     /**
      * @param direction a normalized direction vector. For example {1, 0} points to the right.
      */
     public Entity setMovement(Vec2f direction) {
         var dir = direction.clone().normalize();
-        if (speedPowerUp != null) {
-            speedPowerUp.step(this);
-        }
+        stepPowerUps();
         vel.copy(dir.multiply(calcSpeedMultiplier()));
         return this;
     }
@@ -77,6 +91,7 @@ public abstract class Entity implements Updatable {
                 setMovement(goal.toFloatCenter().subtract(pos));
             }
         }
+        if (isFrozen) return;
         pos.add(vel.clone().multiply(timeDelta));
     }
 
@@ -112,5 +127,9 @@ public abstract class Entity implements Updatable {
 
     public void setSpeedMultiplier(float v) {
         speedMultiplier = v;
+    }
+
+    public PacmanBoard getParent() {
+        return parent;
     }
 }
