@@ -14,7 +14,7 @@ public abstract class Ghost extends Entity {
     public Ghost(PacmanBoard parent, GhostColor color) throws IOException {
         super(parent);
         this.color = color;
-        this.textureController = new TextureController(new String[]{}, 1f, "ghost_" + color.getColor() + ".png");
+        this.textureController = new TextureController(new String[]{"ghost_scared.png"}, 1f, "ghost_" + color.getColor() + ".png");
     }
 
     protected Vec2i getRandDir() {
@@ -45,7 +45,7 @@ public abstract class Ghost extends Entity {
         var neighbours = grid.getNeighboursPos(getGridPos());
         var targetPos = isEthereal ? parent.getGhostSpawn().toFloatCenter() : parent.getPlayer().getPos();
         var dir = isEthereal ? 1 : -1;
-        var directions = new ArrayList<Vec2i>(neighbours
+        var directions = new ArrayList<>(neighbours
                 .stream()
                 .filter((Vec2i p) -> !grid.get(p).isWall())
                 .sorted((Vec2i a, Vec2i b) -> targetPos.distance(a.toFloatCenter()) > targetPos.distance(b.toFloatCenter()) ? dir : dir * -1)
@@ -67,13 +67,12 @@ public abstract class Ghost extends Entity {
     public void draw(Graphics g, int fieldSize) {
         boolean playerHasPowerup = parent.getPlayer().hasPowerup();
         var screenPos = pos.clone().multiply(fieldSize).toInt().subtract(fieldSize / 3);
-//        g.setColor(playerHasPowerup ? Color.GREEN : color);
+        textureController.setState(playerHasPowerup);
         if (isEthereal) {
             g.setColor(Color.GRAY);
         }
         var size = fieldSize - fieldSize / 3;
         var currentTexture = textureController.getCurrTexture(new Vec2i(size));
         g.drawImage(currentTexture, screenPos.x, screenPos.y, null);
-//        g.fillArc(screenPos.x, screenPos.y, fieldSize - fieldSize / 3, fieldSize - fieldSize / 3, 0, 350);
     }
 }
