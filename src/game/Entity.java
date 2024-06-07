@@ -19,6 +19,7 @@ public abstract class Entity implements Updatable {
     private boolean isInFieldCenter = true;
     private PowerUp speedPowerUp;
     private PowerUp freezePowerUp;
+    private PowerUp invisibilityPowerUp;
     public boolean isFrozen = false;
 
 
@@ -37,6 +38,10 @@ public abstract class Entity implements Updatable {
         freezePowerUp.apply(this);
     }
 
+    public void applyInvisibilityPowerUp() {
+        invisibilityPowerUp = PowerUpType.INVISIBLE.getInstance();
+        invisibilityPowerUp.apply(this);
+    }
 
     public Vec2f getPos() {
         return pos;

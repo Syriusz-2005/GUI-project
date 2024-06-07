@@ -36,13 +36,29 @@ public enum PowerUpType {
         public void apply(Entity e) {
             e.applyFreezePowerUp();
         }
-    };
+    },
+    INVISIBLE() {
+        @Override
+        public PowerUp getInstance() {
+            return null;
+        }
+
+        @Override
+        public Color getColor() {
+            return Color.PINK;
+        }
+
+        @Override
+        public void apply(Entity e) {
+            e.applyInvisibilityPowerUp();
+        }
+    }
 
     public abstract PowerUp getInstance();
     public abstract Color getColor();
     public abstract void apply(Entity e);
     public static PowerUpType getRandom() {
-        var r = MathUtils.randInt(0, 2);
+        var r = MathUtils.randInt(0, PowerUpType.values().length);
         return switch (r) {
             case 1 -> FREEZE;
             default -> SPEED;
