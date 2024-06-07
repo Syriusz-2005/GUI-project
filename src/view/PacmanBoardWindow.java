@@ -1,12 +1,12 @@
 package view;
 
 import game.PacmanBoard;
-import game.PowerUpType;
 import utils.ClockDisplay;
 import utils.Vec2f;
 import utils.Vec2i;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -29,17 +29,10 @@ public class PacmanBoardWindow extends JFrame implements View {
         });
         setTitle("Game window");
         setBackground(new Color(0, 0, 0));
+        getContentPane().setBackground(Color.BLACK);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                var wSize = getSize();
-                var boardSize = board.getSize();
-
-                FIELD_SIZE = Math.min(wSize.width / boardSize.x, (wSize.height - 180) / boardSize.y);
-            }
-        });
-
+        setLayout(new GridBagLayout());
+        setMinimumSize(new Dimension(600, 400));
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -64,77 +57,99 @@ public class PacmanBoardWindow extends JFrame implements View {
                 }
             }
         });
-        boardPanel = new JPanel(){
+        boardPanel = new SwingedBoard(board);
+        var pacmanWindow = this;
+        addComponentListener(new ComponentAdapter() {
             @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                var grid = board.getBoardGrid().getGrid();
-                g.translate(0, 150);
-
-                g.setColor(Color.WHITE);
-                g.setFont(new Font(null, Font.PLAIN, 40));
-
-                var scoreTitle = "Score: " + board.getPlayer().getScore();
-                g.drawString(scoreTitle, 30, -70);
-
-                var livesCounter = "Lives: " + board.getPlayer().lives;
-                g.drawString(livesCounter, 250, -70);
-
-                var levelCounter = "Level: " + board.getLevel();
-                g.drawString(levelCounter, 650, -70);
-
-                var clockDisplay = new ClockDisplay(board.getClock());
-                var time = clockDisplay.getFormattedTime();
-                g.drawString(time, 450, -70);
-
-                for (int y = 0; y < grid.length; y++) {
-                    for (int x = 0; x < grid[y].length; x++) {
-                        var field = grid[y][x];
-                        var pos = new Vec2i(x, y).multiply(FIELD_SIZE);
-
-                        var dynamicPowerUp = field.getDynamicPowerUp();
-                        if (dynamicPowerUp != null) {
-                            g.setColor(dynamicPowerUp.getColor());
-                            var r = (int) (0.5 * FIELD_SIZE);
-                            var pPos = pos.clone().add(FIELD_SIZE / 2).subtract(r / 2);
-                            g.fillOval(pPos.x, pPos.y, r, r);
-                        }
-
-                        if (field.isDoor()) {
-                            g.setColor(field.isOpen() ? Color.GRAY : Color.WHITE);
-                            g.fillRect(pos.x, pos.y, FIELD_SIZE, FIELD_SIZE);
-                        } else if (field.isWall()) {
-                            g.setColor(new Color(0, 56, 154));
-                            g.fillRect(pos.x, pos.y, FIELD_SIZE, FIELD_SIZE);
-                        } else if (field.hasPowerup()) {
-                            g.setColor(Color.WHITE);
-                            var r = (int) (0.5 * FIELD_SIZE);
-                            pos.add(FIELD_SIZE / 2).subtract(r / 2);
-                            g.fillOval(pos.x, pos.y, r, r);
-                        } else if (field.hasPoint()) {
-                            g.setColor(Color.WHITE);
-                            var r = (int) (0.2 * FIELD_SIZE);
-                            pos.add(FIELD_SIZE / 2).subtract(r / 2);
-                            g.fillOval(pos.x, pos.y, r, r);
-                        }
-                    }
-                }
-
-                if (board.isGameOver()) {
-                    var gameOverTitle = "Game over!";
-                    g.setColor(Color.RED);
-                    g.setFont(new Font(null, Font.PLAIN, 80));
-                    g.drawString(gameOverTitle, getWidth() / 2, getHeight() / 2);
-                }
-
-                var entities = board.getEntities();
-                for (var entity : entities) {
-                    entity.draw(g, FIELD_SIZE);
-                }
+            public void componentResized(ComponentEvent e) {
+                var boardSize = board.getSize();
+                var parentSize = pacmanWindow.getSize();
+                System.out.println("Parent size: " + parentSize);
+                System.out.println("Board size: " + boardSize);
+                var fieldSize = Math.min(
+                        ((double) parentSize.width) / ((double) boardSize.x),
+                        ((double) parentSize.height) / ((double) boardSize.y)
+                );
+                System.out.println(fieldSize);
+                var finalPxSize = new Vec2f(boardSize.x, boardSize.y).subtract(1).multiply((float) fieldSize).toInt();
+                var newDim = new Dimension(finalPxSize.x, finalPxSize.y);
+                System.out.println("Final size: " + newDim);
+                boardPanel.setPreferredSize(newDim);
+                pacmanWindow.revalidate();
+                pacmanWindow.repaint();
             }
-        };
+        });
+//        boardPanel = new JPanel(){
+//            @Override
+//            protected void paintComponent(Graphics g) {
+//                super.paintComponent(g);
+//                var grid = board.getBoardGrid().getGrid();
+//                g.translate(0, 150);
+//
+//                g.setColor(Color.WHITE);
+//                g.setFont(new Font(null, Font.PLAIN, 40));
+//
+//                var scoreTitle = "Score: " + board.getPlayer().getScore();
+//                g.drawString(scoreTitle, 30, -70);
+//
+//                var livesCounter = "Lives: " + board.getPlayer().lives;
+//                g.drawString(livesCounter, 250, -70);
+//
+//                var levelCounter = "Level: " + board.getLevel();
+//                g.drawString(levelCounter, 650, -70);
+//
+//                var clockDisplay = new ClockDisplay(board.getClock());
+//                var time = clockDisplay.getFormattedTime();
+//                g.drawString(time, 450, -70);
+//
+//                for (int y = 0; y < grid.length; y++) {
+//                    for (int x = 0; x < grid[y].length; x++) {
+//                        var field = grid[y][x];
+//                        var pos = new Vec2i(x, y).multiply(FIELD_SIZE);
+//
+//                        var dynamicPowerUp = field.getDynamicPowerUp();
+//                        if (dynamicPowerUp != null) {
+//                            g.setColor(dynamicPowerUp.getColor());
+//                            var r = (int) (0.5 * FIELD_SIZE);
+//                            var pPos = pos.clone().add(FIELD_SIZE / 2).subtract(r / 2);
+//                            g.fillOval(pPos.x, pPos.y, r, r);
+//                        }
+//
+//                        if (field.isDoor()) {
+//                            g.setColor(field.isOpen() ? Color.GRAY : Color.WHITE);
+//                            g.fillRect(pos.x, pos.y, FIELD_SIZE, FIELD_SIZE);
+//                        } else if (field.isWall()) {
+//                            g.setColor(new Color(0, 56, 154));
+//                            g.fillRect(pos.x, pos.y, FIELD_SIZE, FIELD_SIZE);
+//                        } else if (field.hasPowerup()) {
+//                            g.setColor(Color.WHITE);
+//                            var r = (int) (0.5 * FIELD_SIZE);
+//                            pos.add(FIELD_SIZE / 2).subtract(r / 2);
+//                            g.fillOval(pos.x, pos.y, r, r);
+//                        } else if (field.hasPoint()) {
+//                            g.setColor(Color.WHITE);
+//                            var r = (int) (0.2 * FIELD_SIZE);
+//                            pos.add(FIELD_SIZE / 2).subtract(r / 2);
+//                            g.fillOval(pos.x, pos.y, r, r);
+//                        }
+//                    }
+//                }
+//
+//                if (board.isGameOver()) {
+//                    var gameOverTitle = "Game over!";
+//                    g.setColor(Color.RED);
+//                    g.setFont(new Font(null, Font.PLAIN, 80));
+//                    g.drawString(gameOverTitle, getWidth() / 2, getHeight() / 2);
+//                }
+//
+//                var entities = board.getEntities();
+//                for (var entity : entities) {
+//                    entity.draw(g, FIELD_SIZE);
+//                }
+//            }
+//        };
         boardPanel.setBackground(new Color(0, 0, 0));
-        add(boardPanel);
+        getContentPane().add(boardPanel);
         setVisible(true);
     }
 

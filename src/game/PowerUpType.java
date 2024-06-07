@@ -52,7 +52,7 @@ public enum PowerUpType {
         public void apply(Entity e) {
             e.applyInvisibilityPowerUp();
         }
-    }
+    };
 
     public abstract PowerUp getInstance();
     public abstract Color getColor();
