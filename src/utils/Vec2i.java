@@ -1,5 +1,7 @@
 package utils;
 
+import java.awt.*;
+
 public class Vec2i {
     public static Vec2i ZERO = new Vec2i(0, 0);
     public int x;
@@ -8,6 +10,14 @@ public class Vec2i {
     public Vec2i(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public Vec2i(Point p) {
+        this(p.x, p.y);
+    }
+
+    public Vec2i(Dimension d) {
+        this(d.width, d.height);
     }
 
     public Vec2i(int s) {
@@ -48,6 +58,12 @@ public class Vec2i {
     public Vec2i add(Vec2i v) {
         x += v.x;
         y += v.y;
+        return this;
+    }
+
+    public Vec2i add(Point p) {
+        x += p.x;
+        y += p.y;
         return this;
     }
 

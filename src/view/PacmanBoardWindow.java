@@ -1,22 +1,19 @@
 package view;
 
 import game.PacmanBoard;
-import utils.ClockDisplay;
 import utils.Vec2f;
-import utils.Vec2i;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 
 public class PacmanBoardWindow extends JFrame implements View {
-    private int FIELD_SIZE = 30;
     private final PacmanBoard board;
     private final SwingedBoard boardPanel;
     private GameOverWindow gameOverWindow;
 
-    public PacmanBoardWindow(PacmanBoard board, Thread gameLoopThread) {
+    public PacmanBoardWindow(PacmanBoard board, Thread gameLoopThread) throws IOException {
         super();
         this.board = board;
         board.setOnGameOver(this::displayGameOverWindow);
@@ -130,12 +127,14 @@ public class PacmanBoardWindow extends JFrame implements View {
         };
         */
         boardPanel.setBackground(new Color(0, 0, 0));
+
         getContentPane().add(boardPanel);
         setVisible(true);
     }
 
     public void display(PacmanBoard board) {
-        boardPanel.update();
+        var fieldSize = boardPanel.getFieldSize();
+        boardPanel.update(fieldSize);
     }
 
     public void displayGameOverWindow() {

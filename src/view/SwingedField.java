@@ -21,7 +21,7 @@ public class SwingedField extends JPanel implements ComponentUpdatable {
         staticPowerup = new PointComponent(20, Color.LIGHT_GRAY);
         add(staticPowerup);
         add(point);
-        update();
+        update(1);
     }
 
     private void set(PointComponent p, boolean isVisible) {
@@ -34,7 +34,7 @@ public class SwingedField extends JPanel implements ComponentUpdatable {
         }
     }
 
-    public void update() {
+    public void update(double fieldSize) {
         if (staticPowerup.isVisible() != field.hasPowerup()) {
             set(staticPowerup, field.hasPowerup());
             repaint();
