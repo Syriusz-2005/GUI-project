@@ -137,4 +137,5 @@ public abstract class Entity implements Updatable {
     public PacmanBoard getParent() {
         return parent;
     }
+    public abstract TextureController getTextureController();
 }

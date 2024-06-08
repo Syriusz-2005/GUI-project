@@ -78,13 +78,17 @@ public abstract class Ghost extends Entity {
     @Override
     public void draw(Graphics g, int fieldSize) {
         boolean playerHasPowerup = parent.getPlayer().hasPowerup();
-        var screenPos = pos.clone().multiply(fieldSize).toInt().subtract(fieldSize / 3);
+        var size = fieldSize - fieldSize / 3;
         textureController.setState(playerHasPowerup);
         if (isEthereal) {
             g.setColor(Color.GRAY);
         }
-        var size = fieldSize - fieldSize / 3;
         var currentTexture = textureController.getCurrTexture(new Vec2i(size));
-        g.drawImage(currentTexture, screenPos.x, screenPos.y, null);
+        g.drawImage(currentTexture, 0, 0, null);
+    }
+
+    @Override
+    public TextureController getTextureController() {
+        return textureController;
     }
 }

@@ -118,4 +118,9 @@ public class Player extends Entity {
         g2d.drawImage(currentTexture, 0, 0,null);
         g2d.setTransform(currTransform);
     }
+
+    @Override
+    public TextureController getTextureController() {
+        return textureController;
+    }
 }

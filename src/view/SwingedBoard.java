@@ -1,5 +1,6 @@
 package view;
 
+import game.Entity;
 import game.PacmanBoard;
 import utils.Vec2i;
 
@@ -7,10 +8,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 public class SwingedBoard extends JLayeredPane implements ComponentUpdatable {
     private final PacmanBoard board;
-    private final ArrayList<SwingedField> fields = new ArrayList<>();
+    private final ArrayList<SwingedField> fieldViews = new ArrayList<>();
+    private final ArrayList<SwingedEntity> entityViews = new ArrayList<>();
     private double fieldSize;
     private final SwingedPlayer playerComponent;
     private final JPanel gridPanel;
@@ -27,12 +30,25 @@ public class SwingedBoard extends JLayeredPane implements ComponentUpdatable {
             for (var f : row) {
                 var field = new SwingedField(f);
                 gridPanel.add(field);
-                fields.add(field);
+                fieldViews.add(field);
             }
         }
         gridPanel.setBackground(Color.BLACK);
-        add(gridPanel, JLayeredPane.DEFAULT_LAYER);
-        add(playerComponent, JLayeredPane.POPUP_LAYER);
+
+        Consumer<PacmanBoard> reInit = (b) -> {
+            removeAll();
+            entityViews.clear();
+            add(gridPanel, JLayeredPane.DEFAULT_LAYER);
+            add(playerComponent, JLayeredPane.POPUP_LAYER);
+            for (Entity e : board.getEntities()) {
+                var entityView = new SwingedEntity(board, this, e);
+                entityViews.add(entityView);
+                add(entityView, JLayeredPane.POPUP_LAYER);
+            }
+        };
+
+        reInit.accept(board);
+        board.onInit(reInit);
     }
 
     @Override
@@ -54,10 +70,13 @@ public class SwingedBoard extends JLayeredPane implements ComponentUpdatable {
 
     @Override
     public void update(double fieldsSize) {
-        for (var field : fields) {
+        for (var field : fieldViews) {
             field.update(fieldSize);
         }
         playerComponent.update(fieldSize);
+        for (SwingedEntity e : entityViews) {
+            e.update(fieldSize);
+        }
     }
 
     public double getFieldSize() {

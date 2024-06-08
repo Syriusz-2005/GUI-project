@@ -5,6 +5,7 @@ import utils.Vec2i;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 public class PacmanBoard implements Updatable {
     private final String boardName;
@@ -19,6 +20,7 @@ public class PacmanBoard implements Updatable {
     private final Vec2i playerSpawn;
     private final int totalFieldsWithPoints;
     private int level = 1;
+    private Consumer<PacmanBoard> onInit;
 
 
     private void initState() throws IOException {
@@ -36,6 +38,9 @@ public class PacmanBoard implements Updatable {
         ghost.findNextRandomGoal();
 
         player.setGridPos(playerSpawn);
+        if (onInit != null) {
+            onInit.accept(this);
+        }
     }
 
     public void setOnGameOver(GameOverListener callback) {
@@ -144,5 +149,9 @@ public class PacmanBoard implements Updatable {
 
     public int getLevel() {
         return level;
+    }
+
+    public void onInit(Consumer<PacmanBoard> callback) {
+        this.onInit = callback;
     }
 }
