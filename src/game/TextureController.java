@@ -72,6 +72,13 @@ public class TextureController implements Runnable {
         return resizedNeutralTexture;
     }
 
+    /**
+     *  The same as getCurrTexture but it without texture resizing
+     */
+    public Image getCurrTexture() {
+        return getCurrTexture(prevSize);
+    }
+
     @Override
     public void run() {
         try {

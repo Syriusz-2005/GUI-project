@@ -126,7 +126,6 @@ public class PacmanBoardWindow extends JFrame implements View {
             }
         };
         */
-        boardPanel.setBackground(new Color(0, 0, 0));
 
         getContentPane().add(boardPanel);
         setVisible(true);

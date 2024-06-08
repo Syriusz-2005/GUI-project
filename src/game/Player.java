@@ -101,8 +101,8 @@ public class Player extends Entity {
 
     @Override
     public void draw(Graphics g, int fieldSize) {
-        var screenPos = pos.clone().multiply(fieldSize).toInt().subtract(fieldSize / 3);
         var size = fieldSize - fieldSize / 3;
+        var screenPos = Vec2i.ZERO;
         var currentTexture = textureController.getCurrTexture(new Vec2i(size));
         var g2d = (Graphics2D) g;
         var currTransform = g2d.getTransform();
@@ -115,7 +115,7 @@ public class Player extends Entity {
         }
 
         g2d.transform(trans);
-        g2d.drawImage(currentTexture, screenPos.x, screenPos.y,null);
+        g2d.drawImage(currentTexture, 0, 0,null);
         g2d.setTransform(currTransform);
     }
 }

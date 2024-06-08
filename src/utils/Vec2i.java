@@ -20,6 +20,10 @@ public class Vec2i {
         this(d.width, d.height);
     }
 
+    public Vec2i(Image i) {
+        this(i.getWidth(null), i.getHeight(null));
+    }
+
     public Vec2i(int s) {
         this(s, s);
     }

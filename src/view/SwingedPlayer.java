@@ -26,24 +26,22 @@ public class SwingedPlayer extends JPanel implements ComponentUpdatable {
     @Override
     public void update(double fieldSize) {
         var p = board.getPlayer();
-        var txt = textureController.getCurrTexture(new Vec2i((int) fieldSize / 2));
-        var txtSize = new Vec2i(txt.getWidth(null), txt.getHeight(null));
-        setSize(txtSize.x, txtSize.y);
+        double size = fieldSize - fieldSize / 3;
+        var txt = textureController.getCurrTexture(new Vec2i((int) size));
+        var txtSize = new Vec2i(txt);
 
         var pPos = p.getPos()
                 .clone()
                 .multiply((float) fieldSize)
                 .toInt()
-                .add((int) fieldSize / 2)
-                .subtract(txtSize.divide(2));
+                .subtract(txtSize.clone().divide(2));
+
         setBounds(pPos.x, pPos.y, txtSize.x, txtSize.y);
         repaint();
     }
 
     @Override
     public void paint(Graphics g) {
-        System.out.println("Repainting");
-        super.paint(g);
         board.getPlayer().draw(g, (int) boardView.getFieldSize());
     }
 }
