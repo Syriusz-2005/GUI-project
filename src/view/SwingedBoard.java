@@ -22,22 +22,24 @@ public class SwingedBoard extends JLayeredPane implements ComponentUpdatable {
         this.board = board;
         playerComponent = new SwingedPlayer(board, this);
 
-        var grid = board.getBoardGrid().getGrid();
         gridPanel = new JPanel();
-        gridPanel.setLayout(new GridLayout(grid.length, grid[0].length, 0, 0));
 
-        for (var row : grid) {
-            for (var f : row) {
-                var field = new SwingedField(f);
-                gridPanel.add(field);
-                fieldViews.add(field);
-            }
-        }
         gridPanel.setBackground(Color.BLACK);
 
         Consumer<PacmanBoard> reInit = (b) -> {
             removeAll();
             entityViews.clear();
+            fieldViews.clear();
+            gridPanel.removeAll();
+            var grid = board.getBoardGrid().getGrid();
+            gridPanel.setLayout(new GridLayout(grid.length, grid[0].length, 0, 0));
+            for (var row : grid) {
+                for (var f : row) {
+                    var field = new SwingedField(f);
+                    gridPanel.add(field);
+                    fieldViews.add(field);
+                }
+            }
             add(gridPanel, JLayeredPane.DEFAULT_LAYER);
             add(playerComponent, JLayeredPane.POPUP_LAYER);
             for (Entity e : board.getEntities()) {
@@ -45,6 +47,10 @@ public class SwingedBoard extends JLayeredPane implements ComponentUpdatable {
                 entityViews.add(entityView);
                 add(entityView, JLayeredPane.POPUP_LAYER);
             }
+            for (SwingedField field : fieldViews) {
+                field.reset();
+            }
+            repaint();
         };
 
         reInit.accept(board);

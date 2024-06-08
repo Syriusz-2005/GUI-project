@@ -1,14 +1,15 @@
 package view;
 
+import utils.Vec2i;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class PointComponent extends JPanel {
-    private final int size;
-    private final Color color;
-    private boolean isVisible;
-    public PointComponent(int size, Color color) {
-        this.size = size;
+    private final int radius;
+    private Color color;
+    public PointComponent(int radius, Color color) {
+        this.radius = radius;
         this.color = color;
         setBackground(new Color(0, 0, 0, 0));
     }
@@ -18,15 +19,10 @@ public class PointComponent extends JPanel {
         super.paint(g);
         var s = getSize();
         g.setColor(color);
-        g.fillOval((s.width - size) / 2, (s.height - size) / 2, size, size);
+        g.fillOval((s.width - radius) / 2, (s.height - radius) / 2, radius, radius);
     }
 
-    @Override
-    public boolean isVisible() {
-        return isVisible;
-    }
-
-    public void setVisible(boolean isVisible) {
-        this.isVisible = isVisible;
+    public void setColor(Color c) {
+        color = c;
     }
 }

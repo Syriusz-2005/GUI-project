@@ -1,14 +1,16 @@
 package view;
 
 import game.Field;
+import utils.Vec2i;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class SwingedField extends JPanel implements ComponentUpdatable {
     private final Field field;
-    private final PointComponent point;
-    private final PointComponent staticPowerup;
+    private final PointComponent pointView;
+    private final PointComponent staticPowerupView;
+    private final PointComponent dynamicPowerupView;
 
     public SwingedField(Field f) {
         field = f;
@@ -17,34 +19,46 @@ public class SwingedField extends JPanel implements ComponentUpdatable {
         setBackground(color);
         setLayout(new BorderLayout());
 
-        point = new PointComponent(10, Color.LIGHT_GRAY);
-        staticPowerup = new PointComponent(20, Color.LIGHT_GRAY);
-        add(staticPowerup);
-        add(point);
+        pointView = new PointComponent(10, Color.LIGHT_GRAY);
+        staticPowerupView = new PointComponent(25, Color.LIGHT_GRAY);
+        dynamicPowerupView = new PointComponent(25, Color.CYAN);
+        reset();
+    }
+
+    public void setIsVisible(PointComponent component, boolean isVisible) {
+        removeAll();
+        if (isVisible) {
+            add(component);
+        }
+        component.setVisible(isVisible);
         update(1);
     }
 
-    private void set(PointComponent p, boolean isVisible) {
-        p.setVisible(isVisible);
-        if (isVisible) {
-            removeAll();
-            add(p);
-        } else {
-            remove(p);
+    public void update(double fieldSize) {
+        var dynamicPowerup = field.getDynamicPowerUp();
+        var isDynamicPowerupVisible = dynamicPowerup != null;
+        if (dynamicPowerupView.isVisible() != isDynamicPowerupVisible) {
+            if (isDynamicPowerupVisible) {
+                dynamicPowerupView.setColor(dynamicPowerup.getColor());
+            }
+            setIsVisible(dynamicPowerupView, isDynamicPowerupVisible);
+        }
+        if (dynamicPowerupView.isVisible()) return;
+
+        if (staticPowerupView.isVisible() != field.hasPowerup()) {
+            setIsVisible(staticPowerupView, field.hasPowerup());
+        }
+        if (staticPowerupView.isVisible()) return;
+
+        if (pointView.isVisible() != field.hasPoint()) {
+            setIsVisible(pointView, field.hasPoint());
         }
     }
 
-    public void update(double fieldSize) {
-        if (staticPowerup.isVisible() != field.hasPowerup()) {
-            set(staticPowerup, field.hasPowerup());
-            repaint();
-            return;
-        }
-
-        if (point.isVisible() != field.hasPoint()) {
-            set(point, field.hasPoint());
-            repaint();
-        }
-
+    public void reset() {
+        pointView.setVisible(false);
+        staticPowerupView.setVisible(false);
+        dynamicPowerupView.setVisible(false);
+        update(1);
     }
 }
