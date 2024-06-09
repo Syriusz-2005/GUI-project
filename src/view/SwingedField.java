@@ -1,16 +1,15 @@
 package view;
 
 import game.Field;
-import utils.Vec2i;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class SwingedField extends JPanel implements ComponentUpdatable {
     private final Field field;
-    private final PointComponent pointView;
-    private final PointComponent staticPowerupView;
-    private final PointComponent dynamicPowerupView;
+    private final SwingedPoint pointView;
+    private final SwingedPoint staticPowerupView;
+    private final SwingedPoint dynamicPowerupView;
 
     public SwingedField(Field f) {
         field = f;
@@ -19,19 +18,18 @@ public class SwingedField extends JPanel implements ComponentUpdatable {
         setBackground(color);
         setLayout(new BorderLayout());
 
-        pointView = new PointComponent(10, Color.LIGHT_GRAY);
-        staticPowerupView = new PointComponent(25, Color.LIGHT_GRAY);
-        dynamicPowerupView = new PointComponent(25, Color.CYAN);
+        pointView = new SwingedPoint(10, Color.LIGHT_GRAY);
+        staticPowerupView = new SwingedPoint(25, Color.LIGHT_GRAY);
+        dynamicPowerupView = new SwingedPoint(25, Color.CYAN);
         reset();
     }
 
-    public void setIsVisible(PointComponent component, boolean isVisible) {
+    public void setIsVisible(SwingedPoint component, boolean isVisible) {
         removeAll();
         if (isVisible) {
             add(component);
         }
         component.setVisible(isVisible);
-        repaint();
         update(1);
     }
 

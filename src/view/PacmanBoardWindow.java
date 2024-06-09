@@ -12,6 +12,8 @@ public class PacmanBoardWindow extends JFrame implements View {
     private final PacmanBoard board;
     private final SwingedBoard boardPanel;
     private GameOverWindow gameOverWindow;
+    private final SwingedStateDisplay stateDisplayView;
+
 
     public PacmanBoardWindow(PacmanBoard board, Thread gameLoopThread) throws IOException {
         super();
@@ -28,8 +30,7 @@ public class PacmanBoardWindow extends JFrame implements View {
         setBackground(new Color(0, 0, 0));
         getContentPane().setBackground(Color.BLACK);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setLayout(new GridBagLayout());
-        setMinimumSize(new Dimension(600, 400));
+        setMinimumSize(new Dimension(800, 600));
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -54,7 +55,6 @@ public class PacmanBoardWindow extends JFrame implements View {
                 }
             }
         });
-        boardPanel = new SwingedBoard(board);
         /*
                 boardPanel = new JPanel(){
             @Override
@@ -127,13 +127,23 @@ public class PacmanBoardWindow extends JFrame implements View {
         };
         */
 
-        getContentPane().add(boardPanel);
+
+        boardPanel = new SwingedBoard(board);
+        stateDisplayView = new SwingedStateDisplay(board);
+
+        var mainContainer = new JPanel();
+
+        getContentPane().add(stateDisplayView);
+        getContentPane().add(mainContainer);
+
+        mainContainer.add(boardPanel);
         setVisible(true);
     }
 
     public void display(PacmanBoard board) {
         var fieldSize = boardPanel.getFieldSize();
         boardPanel.update(fieldSize);
+        stateDisplayView.update(fieldSize);
     }
 
     public void displayGameOverWindow() {

@@ -2,6 +2,7 @@ package view;
 
 import game.Entity;
 import game.PacmanBoard;
+import game.Player;
 import utils.Vec2i;
 
 import javax.swing.*;
@@ -21,9 +22,7 @@ public class SwingedBoard extends JLayeredPane implements ComponentUpdatable {
     public SwingedBoard(PacmanBoard board) throws IOException {
         this.board = board;
         playerComponent = new SwingedPlayer(board, this);
-
         gridPanel = new JPanel();
-
         gridPanel.setBackground(Color.BLACK);
 
         Consumer<PacmanBoard> reInit = (b) -> {
@@ -41,11 +40,12 @@ public class SwingedBoard extends JLayeredPane implements ComponentUpdatable {
                 }
             }
             add(gridPanel, JLayeredPane.DEFAULT_LAYER);
-            add(playerComponent, JLayeredPane.POPUP_LAYER);
+            add(playerComponent, JLayeredPane.MODAL_LAYER);
             for (Entity e : board.getEntities()) {
+                if (e instanceof Player) continue;
                 var entityView = new SwingedEntity(board, this, e);
                 entityViews.add(entityView);
-                add(entityView, JLayeredPane.POPUP_LAYER);
+                add(entityView, JLayeredPane.MODAL_LAYER);
             }
             repaint();
         };

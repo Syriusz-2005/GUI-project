@@ -1,14 +1,12 @@
 package view;
 
-import utils.Vec2i;
-
 import javax.swing.*;
 import java.awt.*;
 
-public class PointComponent extends JPanel {
+public class SwingedPoint extends JPanel {
     private final int radius;
     private Color color;
-    public PointComponent(int radius, Color color) {
+    public SwingedPoint(int radius, Color color) {
         this.radius = radius;
         this.color = color;
         setBackground(new Color(0, 0, 0, 0));
