@@ -21,6 +21,7 @@ public class SwingedPlayer extends JPanel implements ComponentUpdatable {
     public SwingedPlayer(PacmanBoard board, SwingedBoard boardView) throws IOException {
         this.boardView = boardView;
         this.board = board;
+        setBackground(new Color(0, 0, 0, 0));
     }
 
     @Override
