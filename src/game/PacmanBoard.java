@@ -81,9 +81,16 @@ public class PacmanBoard implements Updatable {
         return player;
     }
 
+    private void disposeEntities() {
+        for (Entity e : entities) {
+            e.destruct();
+        }
+        entities.clear();
+    }
+
     private void onDeath() throws IOException {
         player.lives--;
-        entities.clear();
+        disposeEntities();
         player.reset();
         if (isGameOver()) {
             onGameOver.call();
@@ -105,7 +112,7 @@ public class PacmanBoard implements Updatable {
 
     public void step(float timeDelta) throws IOException {
         if (player.getPointsPickedUp() >= totalFieldsWithPoints) {
-            entities.clear();
+            disposeEntities();
             gameStartSecond = clock.getSeconds();
             BoardGenerator.loadFromFile(boardGrid, boardName);
             player.reset();

@@ -11,13 +11,19 @@ public abstract class Ghost extends Entity {
     private final GhostColor color;
     public boolean isEthereal = false;
     private final TextureController textureController;
-    private GameClock powerUpSpawnClock = new GameClock();
+    private final GameClock powerUpSpawnClock = new GameClock();
 
     public Ghost(PacmanBoard parent, GhostColor color) throws IOException {
         super(parent);
         this.color = color;
         this.textureController = new TextureController(new String[]{"ghost_scared.png"}, 1f, "ghost_" + color.getColor() + ".png");
         powerUpSpawnClock.on(this::trySpawningPowerup);
+    }
+
+    @Override
+    public void destruct() {
+        super.destruct();
+        powerUpSpawnClock.interrupt();
     }
 
     private void trySpawningPowerup(int s) {

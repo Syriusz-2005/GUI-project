@@ -138,4 +138,5 @@ public abstract class Entity implements Updatable {
         return parent;
     }
     public abstract TextureController getTextureController();
+    public void destruct() {}
 }

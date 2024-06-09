@@ -31,6 +31,7 @@ public class SwingedField extends JPanel implements ComponentUpdatable {
             add(component);
         }
         component.setVisible(isVisible);
+        repaint();
         update(1);
     }
 

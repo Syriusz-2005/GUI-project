@@ -47,9 +47,6 @@ public class SwingedBoard extends JLayeredPane implements ComponentUpdatable {
                 entityViews.add(entityView);
                 add(entityView, JLayeredPane.POPUP_LAYER);
             }
-            for (SwingedField field : fieldViews) {
-                field.reset();
-            }
             repaint();
         };
 
