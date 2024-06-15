@@ -16,11 +16,11 @@ public class Player extends Entity {
 
     private int pointsPickedUp = 0;
     private final TextureController textureController = new TextureController(new String[]{
-            "player_frame_0.png",
-            "player_frame_1.png",
-            "player_frame_2.png",
-            "player_frame_3.png"
-    }, 0.1f, "player_frame_2.png");
+            "player_pixel_frame_0.png",
+            "player_pixel_frame_1.png",
+            "player_pixel_frame_2.png",
+            "player_pixel_frame_3.png"
+    }, 0.1f, "player_pixel_frame_2.png");
 
     public Player(PacmanBoard parent) throws IOException {
         super(parent);

@@ -21,6 +21,7 @@ public class SwingedEntity extends JPanel implements ComponentUpdatable {
         this.board = board;
         this.boardView = boardView;
         this.entity = entity;
+        setOpaque(false);
     }
 
     @Override
