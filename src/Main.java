@@ -11,9 +11,12 @@ public class Main {
             var board = new PacmanBoard(boardName);
             var window = new PacmanBoardWindow(board, Thread.currentThread());
             while (!board.isGameOver() && !Thread.currentThread().isInterrupted() ) {
+                long startTime = System.nanoTime();
                 board.step(2.7f);
                 window.display(board);
-                Thread.sleep(7);
+                long nanoDelta = System.nanoTime() - startTime;
+                System.out.println("Delta: " + (float) nanoDelta / 1_000_000 + " ms");
+                Thread.sleep((long) Math.max(0, 7 - (float) nanoDelta / 1_000_000));
             }
         } catch(IOException err) {
             System.err.println("IO exception, couldn't load the game " + boardName);
