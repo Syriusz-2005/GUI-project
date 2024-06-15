@@ -125,6 +125,7 @@ public class PacmanBoard implements Updatable {
         for (Entity entity : entities) {
             entity.step(timeDelta);
             if (entity instanceof Ghost && entity.getPos().distance(player.getPos()) < .7) {
+                if (player.isInvisible) continue;
                 if (player.hasPowerup()) {
                     if (!((Ghost) entity).isEthereal) {
                         ((Ghost) entity).isEthereal = true;

@@ -40,7 +40,7 @@ public enum PowerUpType {
     INVISIBLE() {
         @Override
         public PowerUp getInstance() {
-            return null;
+            return new InvisibilityPowerup();
         }
 
         @Override
@@ -61,6 +61,7 @@ public enum PowerUpType {
         var r = MathUtils.randInt(0, PowerUpType.values().length);
         return switch (r) {
             case 1 -> FREEZE;
+            case 2 -> INVISIBLE;
             default -> SPEED;
         };
     }

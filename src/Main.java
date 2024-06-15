@@ -15,7 +15,6 @@ public class Main {
                 board.step(2.7f);
                 window.display(board);
                 long nanoDelta = System.nanoTime() - startTime;
-                System.out.println("Delta: " + (float) nanoDelta / 1_000_000 + " ms");
                 Thread.sleep((long) Math.max(0, 7 - (float) nanoDelta / 1_000_000));
             }
         } catch(IOException err) {

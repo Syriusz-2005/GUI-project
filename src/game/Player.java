@@ -13,6 +13,7 @@ public class Player extends Entity {
     private int score = 0;
     public int lives = 3;
     public GameClock powerupClock;
+    public boolean isInvisible = false;
 
     private int pointsPickedUp = 0;
     private final TextureController textureController = new TextureController(new String[]{

@@ -63,6 +63,7 @@ public abstract class Entity implements Updatable {
     private void stepPowerUps() {
         if (speedPowerUp != null) speedPowerUp.step(this);
         if (freezePowerUp != null) freezePowerUp.step(this);
+        if (invisibilityPowerUp != null) invisibilityPowerUp.step(this);
     }
 
     /**
